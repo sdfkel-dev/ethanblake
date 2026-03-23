@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ethan Blake · Westfield University</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Noto+Serif+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#faf8f4;color:#1a1830;font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer;outline:none;border:none;background:none}
+img{display:block}a{text-decoration:none;color:inherit}
+
+:root{
+  --navy:   #0d1b3e;
+  --navy2:  #162448;
+  --crim:   #9b1a2e;
+  --crim2:  #c02138;
+  --crim-l: rgba(155,26,46,.08);
+  --gold:   #b8965a;
+  --gold2:  #d4ac72;
+  --gold-l: rgba(184,150,90,.18);
+  --cream:  #faf8f4;
+  --paper:  #f3efe6;
+  --paper2: #ebe5d8;
+  --paper3: #e2dace;
+  --ink:    #1a1830;
+  --ink2:   #35324e;
+  --ink3:   #5c5878;
+  --dim:    #9592a8;
+  --lne:    rgba(26,24,48,.09);
+  --lne2:   rgba(26,24,48,.05);
+  --white:  #ffffff;
+}
+
+/* ════ INTRO ════════════════════════════════════════ */
+#intro{
+  position:fixed;inset:0;z-index:1000;
+  background:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;cursor:pointer;
+}
+/* Crosshatch bg */
+#intro::before{
+  content:'';position:absolute;inset:0;
+  background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0,rgba(255,255,255,.04) 1px,transparent 1px,transparent 28px),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0,rgba(255,255,255,.04) 1px,transparent 1px,transparent 28px);
+}
+.intro-paper{
+  position:relative;z-index:2;
+  width:min(580px,92vw);
+  background:var(--white);
+  border-top:6px solid var(--crim);
+  padding:0;
+  box-shadow:0 32px 100px rgba(0,0,0,.55);
+}
+.intro-paper-head{
+  padding:18px 36px 14px;
+  border-bottom:2px solid var(--ink);
+  display:flex;align-items:baseline;justify-content:space-between;
+}
+.intro-paper-name{
+  font-family:'Playfair Display',serif;font-size:22px;font-weight:900;
+  color:var(--navy);letter-spacing:.06em;
+}
+.intro-paper-meta{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.3em;
+  color:var(--dim);text-transform:uppercase;
+}
+.intro-paper-body{padding:28px 36px 24px;background:#ffffff}
+.intro-text{
+  font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;
+  line-height:2.0;color:#0f0e1a;min-height:88px;font-weight:500;
+}
+.intro-cur{
+  display:inline-block;width:2px;height:.9em;
+  background:var(--crim);vertical-align:text-bottom;
+  animation:blink .65s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.intro-paper-foot{
+  border-top:1px solid var(--lne);padding:16px 36px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.intro-xoxo{
+  font-family:'Playfair Display',serif;font-size:22px;font-weight:700;
+  color:var(--crim);letter-spacing:.12em;
+  opacity:0;transform:translateY(6px);transition:opacity .45s,transform .45s;
+}
+.intro-xoxo.show{opacity:1;transform:none}
+.intro-gg{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.36em;
+  color:var(--dim);text-transform:uppercase;
+  opacity:0;transition:opacity .45s .25s;
+}
+.intro-gg.show{opacity:1}
+.intro-hint{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.32em;
+  color:rgba(255,255,255,.18);white-space:nowrap;z-index:3;
+  animation:phint 2.4s 3s ease-in-out infinite;
+}
+@keyframes phint{0%,100%{opacity:.18}50%{opacity:.55}}
+.intro-veil{
+  position:absolute;inset:0;z-index:10;background:var(--navy);
+  clip-path:inset(100% 0 0 0);transition:clip-path .85s cubic-bezier(.77,0,.18,1);
+}
+.intro-veil.close{clip-path:inset(0 0 0 0)}
+#intro.out{opacity:0;pointer-events:none;transition:opacity .4s .7s}
+
+/* ════ SITE ══════════════════════════════════════════ */
+#site{opacity:0;transition:opacity 1s .2s}
+#site.on{opacity:1}
+
+/* ════ SCHOOL BANNER ════════════════════════════════ */
+.school-banner{
+  background:var(--navy);
+  padding:0 60px;height:46px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;
+  border-bottom:3px solid var(--crim);
+}
+.sb-left{display:flex;align-items:center;gap:16px}
+.sb-shield{
+  width:22px;height:26px;position:relative;
+  background:var(--crim);clip-path:polygon(0 0,100% 0,100% 70%,50% 100%,0 70%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:8px;font-weight:900;color:var(--white);
+  padding-bottom:4px;
+}
+.sb-name{
+  font-family:'Playfair Display',serif;font-size:13px;font-weight:700;
+  color:var(--white);letter-spacing:.08em;
+}
+.sb-motto{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;
+  color:rgba(255,255,255,.28);font-style:italic;
+}
+.sb-right{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.22em;
+  color:rgba(255,255,255,.3);text-transform:uppercase;
+}
+
+/* ════ HERO ══════════════════════════════════════════ */
+.hero{
+  background:var(--navy2);
+  position:relative;overflow:hidden;
+  /* Plaid-ish pattern */
+}
+.hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:
+    repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0,rgba(255,255,255,.025) 1px,transparent 1px,transparent 48px),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0,rgba(255,255,255,.025) 1px,transparent 1px,transparent 48px),
+    repeating-linear-gradient(0deg,rgba(155,26,46,.06) 0,rgba(155,26,46,.06) 2px,transparent 2px,transparent 144px),
+    repeating-linear-gradient(90deg,rgba(155,26,46,.06) 0,rgba(155,26,46,.06) 2px,transparent 2px,transparent 144px);
+}
+/* Corner crimson accent */
+.hero-accent{
+  position:absolute;top:0;left:0;width:6px;height:100%;background:var(--crim);z-index:1;
+}
+
+.hero-inner{
+  display:grid;grid-template-columns:1fr 440px;
+  min-height:480px;position:relative;z-index:2;
+}
+.hero-left{
+  padding:80px 56px 72px 72px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  border-right:1px solid rgba(255,255,255,.07);
+}
+.hero-right{position:relative;overflow:hidden;background:rgba(0,0,0,.12)}
+
+.hero-label{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.36em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:24px;
+}
+.hero-label::before{content:'';display:block;width:24px;height:1px;background:var(--gold);opacity:.7}
+
+.hero-name{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(52px,7.5vw,96px);font-weight:900;
+  color:var(--white);letter-spacing:.05em;line-height:.92;
+  margin-bottom:12px;
+}
+/* Underline accent on second line */
+.hero-name span{
+  display:block;position:relative;width:fit-content;
+}
+.hero-name span::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:0;
+  height:3px;background:var(--crim);
+}
+.hero-sub{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.42em;
+  color:rgba(255,255,255,.22);margin-bottom:48px;
+}
+
+/* Stat pills */
+.hero-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:38px}
+.pill{
+  display:flex;flex-direction:column;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  padding:10px 18px;
+}
+.pill-k{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.28em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:4px}
+.pill-v{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:rgba(255,255,255,.8)}
+.pill.hot .pill-v{color:var(--crim2)}
+
+/* Academic badge */
+.acad-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(155,26,46,.18);border:1px solid rgba(155,26,46,.35);
+  padding:9px 18px;margin-bottom:36px;
+}
+.acad-badge-dept{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:.04em}
+.acad-badge-yr{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;
+  color:rgba(255,255,255,.45);
+}
+.acad-badge-sep{width:1px;height:16px;background:rgba(255,255,255,.15)}
+
+/* Play btn */
+.hero-play{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--crim);color:var(--white);
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:.12em;padding:13px 30px;
+  transition:background .2s,transform .15s;
+}
+.hero-play:hover{background:var(--crim2);transform:translateX(3px)}
+
+/* Hero photo */
+.hero-photo{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:flex-end}
+.hero-photo img{height:100%;width:auto;object-fit:cover;object-position:top center;display:block}
+.hero-photo-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.hero-photo-ph span{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:rgba(255,255,255,.18);text-align:center;line-height:2}
+.hero-right::before{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(to right,var(--navy2) 0%,rgba(22,36,72,.2) 28%),
+             linear-gradient(to top,var(--navy2) 0%,transparent 18%);
+}
+
+/* ════ TAB NAV ═══════════════════════════════════════ */
+.tabnav-wrap{
+  background:var(--white);
+  border-bottom:2px solid var(--lne);
+  position:sticky;top:46px;z-index:100;
+}
+.tabnav{
+  display:flex;padding:0 72px;max-width:1400px;margin:0 auto;
+  border-bottom:2px solid var(--navy);
+  margin-bottom:-2px;
+}
+.tbtn{
+  height:48px;padding:0 26px;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.3em;
+  color:var(--dim);text-transform:uppercase;
+  position:relative;transition:color .18s;border-bottom:3px solid transparent;
+  margin-bottom:-2px;
+}
+.tbtn.active{color:var(--navy);font-weight:500;border-bottom-color:var(--crim)}
+.tbtn:hover{color:var(--ink2)}
+
+/* ════ PANELS ════════════════════════════════════════ */
+.panel{display:none}
+.panel.active{display:block;animation:pin .28s ease}
+@keyframes pin{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* ════ WORLD TAB ════════════════════════════════════ */
+.world-body{max-width:1300px;margin:0 auto;padding:64px 72px 110px}
+
+/* Newspaper-style opening quote */
+.world-dropcap{
+  display:grid;grid-template-columns:auto 1fr;gap:0 24px;
+  align-items:start;margin-bottom:60px;
+}
+.world-dropcap-letter{
+  font-family:'Playfair Display',serif;font-size:96px;font-weight:900;
+  color:var(--crim);line-height:.85;float:left;
+  margin-right:4px;margin-top:4px;
+}
+.world-dropcap-text p{
+  font-family:'Noto Serif KR',serif;font-size:15.5px;line-height:2.65;
+  color:var(--ink2);margin-bottom:20px;word-break:keep-all;
+}
+.world-dropcap-text p:last-child{margin-bottom:0}
+.world-dropcap-text strong{font-weight:700;color:var(--ink)}
+.world-dropcap-text em{font-style:normal;color:var(--crim);font-weight:600}
+
+/* Bet pullquote */
+.bet-pull{
+  background:var(--navy);
+  margin:36px 0;padding:30px 36px;
+  border-left:5px solid var(--gold);
+  position:relative;overflow:hidden;
+}
+.bet-pull::after{
+  content:'"';position:absolute;right:24px;bottom:-20px;
+  font-family:'Playfair Display',serif;font-size:120px;font-weight:900;
+  color:rgba(255,255,255,.04);line-height:1;
+}
+.bet-who{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.26em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:10px;
+}
+.bet-line{
+  font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;
+  color:rgba(250,248,244,.85);line-height:1.9;
+}
+.bet-line strong{font-style:normal;font-weight:700;color:var(--white)}
+
+/* Section rule */
+.sec-rule{
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:28px;
+}
+.sec-rule-line{flex:1;height:1px;background:var(--lne)}
+.sec-rule-label{
+  font-family:'Playfair Display',serif;font-size:11px;font-weight:700;
+  letter-spacing:.44em;color:var(--crim);text-transform:uppercase;
+}
+.sec-rule-line2{width:40px;height:1px;background:var(--lne)}
+
+/* World cards — 3-col magazine */
+.world-cards{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--lne);border:1px solid var(--lne);
+  margin-bottom:60px;
+  box-shadow:0 2px 16px rgba(26,24,48,.06);
+}
+.wcard{background:var(--paper);padding:28px 30px;transition:background .15s}
+.wcard:hover{background:var(--paper2)}
+.wcard.full{grid-column:1/-1}
+.wcard-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+.wcard-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:12px;letter-spacing:.04em}
+.wcard-text{font-family:'Noto Serif KR',serif;font-size:15px;line-height:2.3;color:var(--ink3);word-break:keep-all}
+.wcard-text strong{color:var(--ink);font-weight:600}
+
+/* NPC card */
+.npc-row{
+  background:var(--paper);border:1px solid var(--lne);
+  display:grid;grid-template-columns:120px 1fr;gap:32px;
+  padding:32px 36px;margin-bottom:60px;
+  box-shadow:0 2px 8px rgba(26,24,48,.05);
+}
+.npc-img{width:120px;aspect-ratio:3/4;background:var(--paper2);border:1px solid var(--lne);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.npc-img img{width:100%;height:100%;object-fit:cover;object-position:top}
+.npc-img-ph{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.14em;color:var(--dim);text-align:center;line-height:2}
+.npc-role{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.24em;color:var(--crim);text-transform:uppercase;margin-bottom:6px}
+.npc-name{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.npc-en{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.15em;color:var(--dim);margin-bottom:8px}
+/* Academic ribbon */
+.npc-acad{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--crim-l);border:1px solid rgba(155,26,46,.18);
+  padding:4px 12px;margin-bottom:12px;
+}
+.npc-acad span{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--crim)}
+.npc-acad small{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--dim)}
+.npc-desc{font-family:'Noto Serif KR',serif;font-size:15px;line-height:2.2;color:var(--ink3);word-break:keep-all}
+
+/* ════ CAMPUS MAP ════════════════════════════════════ */
+.map-wrap{border:1px solid var(--lne);overflow:hidden;margin-bottom:16px;box-shadow:0 4px 20px rgba(26,24,48,.07)}
+.map-head{background:var(--navy);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.map-head-title{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--white);letter-spacing:.06em}
+.map-head-sub{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.28em;color:rgba(255,255,255,.28);text-transform:uppercase}
+.map-body{position:relative;background:#ede8df;height:560px;overflow:hidden}
+.map-paths{position:absolute;inset:0;pointer-events:none}
+.map-paths svg{width:100%;height:100%}
+.gs{position:absolute;border-radius:2px}
+.gs-quad{background:rgba(100,145,75,.18);width:22%;height:18%;left:38%;top:38%}
+.gs-south{background:rgba(100,145,75,.14);width:18%;height:12%;left:28%;top:68%}
+.gs-north{background:rgba(100,145,75,.13);width:22%;height:10%;left:37%;top:6%}
+.map-pond{position:absolute;left:13%;top:55%;width:6%;height:5%;border-radius:50%;background:rgba(100,140,180,.22);border:1px solid rgba(100,140,180,.35)}
+.map-pond-lbl{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:6px;letter-spacing:.12em;color:rgba(26,24,48,.4);white-space:nowrap}
+.sterling-zone{position:absolute;top:3%;left:12%;right:12%;height:20%;border:1.5px dashed rgba(184,150,90,.55);border-radius:2px}
+.sterling-zone-lbl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.3em;color:rgba(184,150,90,.7);text-transform:uppercase;white-space:nowrap}
+.tree{position:absolute;width:8px;height:8px;border-radius:50%;background:rgba(80,120,60,.22)}
+.tree.lg{width:11px;height:11px}.tree.sm{width:6px;height:6px}
+.bld{position:absolute;cursor:pointer}
+.bld-body{display:flex;align-items:center;justify-content:center;border:1px solid rgba(26,24,48,.12);transition:outline .15s,transform .15s;position:relative}
+.bld:hover .bld-body{outline:2px solid var(--crim);transform:scale(1.05);z-index:5}
+.bld.lux:hover .bld-body{outline-color:var(--gold)}
+.bld-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:rgba(26,24,48,.6);font-weight:600}
+.t-ac{background:#c8bfb0}.t-do{background:#bfa898}.t-lx{background:#c5b99a;border:1px solid rgba(154,123,79,.3)}.t-so{background:#a8978a}.t-sp{background:#b8b0a2}.t-gt{background:#a09888}
+.bld-tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--navy);color:var(--white);padding:6px 12px;white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;pointer-events:none;opacity:0;transition:opacity .15s;z-index:20}
+.bld:hover .bld-tip{opacity:1}
+.bld-tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--navy)}
+.map-compass{position:absolute;bottom:14px;right:14px;width:36px;height:36px;z-index:5}
+.map-info{position:absolute;left:12px;bottom:12px;background:var(--white);border:1px solid var(--lne);border-left:3px solid var(--crim);padding:18px 22px;max-width:300px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:10}
+.map-info.show{opacity:1;pointer-events:auto}
+.map-info-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.map-info-type{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:var(--crim);margin-bottom:9px;text-transform:uppercase}
+.map-info-desc{font-family:'Noto Serif KR',serif;font-size:15px;line-height:2.1;color:var(--ink3)}
+.map-info-close{position:absolute;top:8px;right:10px;font-size:11px;color:var(--dim);cursor:pointer}
+.map-foot{background:var(--paper);padding:11px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;border-top:1px solid var(--lne)}
+.lgd{display:flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--ink3)}
+.lgd-dot{width:10px;height:10px;border-radius:1px;flex-shrink:0}
+
+/* ════ CHARACTER TAB ════════════════════════════════ */
+.char-body{max-width:1280px;margin:0 auto;padding:64px 72px 110px}
+
+/* Yearbook-style hero card */
+.yb-card{
+  display:grid;grid-template-columns:300px 1fr;
+  gap:0;border:2px solid var(--navy);
+  margin-bottom:40px;
+  box-shadow:6px 6px 0 var(--navy);
+  align-items:start;
+}
+.yb-photo-col{
+  background:var(--paper2);border-right:2px solid var(--navy);
+}
+.yb-photo{width:100%;aspect-ratio:4/5;overflow:hidden;background:var(--paper3);}
+.yb-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .7s}
+.yb-photo:hover img{transform:scale(1.04)}
+.yb-photo-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px}
+.yb-photo-ph span{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.18em;color:var(--dim);line-height:2}
+.yb-sub-photos{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--lne)}
+.yb-sub{aspect-ratio:1;overflow:hidden;background:var(--paper3);border-right:1px solid var(--lne);display:flex;align-items:center;justify-content:center}
+.yb-sub:last-child{border-right:none}
+.yb-sub img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .6s}
+.yb-sub:hover img{transform:scale(1.06)}
+.yb-sub-ph{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.14em;color:var(--dim);text-align:center}
+.yb-cap{padding:8px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.22em;color:var(--dim);text-transform:uppercase;border-top:1px solid var(--lne)}
+
+/* Yearbook info side */
+.yb-info{padding:32px 36px}
+/* School ID strip */
+.yb-id-strip{
+  background:var(--navy);margin:-32px -36px 28px;padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:3px solid var(--crim);
+}
+.yb-id-strip-l{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.24em;color:rgba(255,255,255,.4);text-transform:uppercase}
+.yb-id-strip-r{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--gold)}
+/* Name */
+.yb-name{font-family:'Playfair Display',serif;font-size:clamp(36px,4.5vw,56px);font-weight:900;color:var(--navy);line-height:1;margin-bottom:6px;letter-spacing:.04em}
+.yb-name-sub{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.38em;color:var(--dim);margin-bottom:22px;font-weight:300}
+/* Acad band */
+.yb-acad{
+  display:flex;align-items:center;gap:0;
+  border:1px solid var(--lne);margin-bottom:24px;overflow:hidden;
+}
+.yb-acad-cell{padding:10px 16px;border-right:1px solid var(--lne)}
+.yb-acad-cell:last-child{border-right:none;flex:1}
+.yb-acad-k{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:5px}
+.yb-acad-v{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--navy)}
+
+/* Stat grid */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--lne);margin-bottom:20px}
+.sc{background:var(--paper);padding:16px 18px;border-right:1px solid var(--lne);border-bottom:1px solid var(--lne);transition:background .15s}
+.sc:hover{background:var(--paper2)}
+.sc:nth-child(even){border-right:none}
+.sc.full{grid-column:1/-1;border-right:none}
+.sk{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:7px}
+.sv{font-family:'DM Sans',sans-serif;font-size:14.5px;font-weight:500;color:var(--ink2);line-height:1.85;word-break:keep-all}
+.sv strong{font-weight:700;color:var(--navy)}
+.chips{margin-top:9px;display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;padding:4px 13px;border:1px solid var(--lne);color:var(--ink3);background:var(--cream)}
+
+/* Alert boxes */
+.alert{background:var(--paper);border:1px solid var(--lne);border-left:4px solid var(--gold);padding:16px 20px;margin-bottom:9px}
+.alert.red{border-left-color:var(--crim)}
+.alert-k{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.26em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+.alert.red .alert-k{color:var(--crim)}
+.alert p{font-family:'Noto Serif KR',serif;font-size:13.5px;line-height:2.0;color:var(--ink3);word-break:keep-all}
+.alert p strong{color:var(--ink);font-weight:700}
+
+.play-btn{
+  display:inline-flex;align-items:center;gap:12px;margin-top:28px;
+  background:var(--navy);color:var(--white);
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:.12em;padding:13px 30px;
+  transition:background .2s,transform .15s;
+}
+.play-btn:hover{background:var(--crim);transform:translateX(3px)}
+
+/* ════ ETC TAB ═══════════════════════════════════════ */
+.etc-body{max-width:960px;margin:0 auto;padding:64px 72px 110px}
+.etc-hd{margin-bottom:14px}
+.etc-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:4px;letter-spacing:.04em}
+.etc-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.4em;color:var(--crim);text-transform:uppercase}
+
+.tog-btn{
+  width:100%;background:var(--paper);border:1px solid var(--lne);
+  padding:14px 20px;display:flex;align-items:center;justify-content:space-between;
+  transition:background .15s;
+}
+.tog-btn:hover{background:var(--paper2)}
+.tog-btn.open{border-bottom:none}
+.tog-label{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink)}
+.tog-caret{font-size:9px;color:var(--dim);transition:transform .25s}
+.tog-btn.open .tog-caret{transform:rotate(180deg)}
+.tog-body{display:none;border:1px solid var(--lne);border-top:none;padding:24px 28px;background:var(--paper);margin-bottom:48px}
+.tog-body.open{display:block}
+.ui-text{font-family:'Noto Serif KR',serif;font-size:15px;line-height:2.4;color:var(--ink2);word-break:keep-all}
+.ui-text em{font-style:italic;color:var(--dim)}
+
+/* Text message bubble */
+.ui-text .sms{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--paper2);border:1px solid var(--lne);
+  border-radius:16px 16px 16px 4px;
+  padding:9px 16px;margin:2px 0;
+  font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--navy);
+  box-shadow:0 1px 4px rgba(26,24,48,.07);
+}
+.ui-text .sms::before{content:'💬';font-size:10px;flex-shrink:0;opacity:.55}
+
+.model-list{margin-top:0}
+.mi{margin-bottom:3px;border:1px solid var(--lne);background:var(--paper)}
+.mi-btn{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:15px 22px;cursor:pointer;text-align:left;transition:background .15s;
+}
+.mi-btn:hover{background:var(--paper2)}
+.mi-btn.open{background:var(--paper2);border-bottom:1px solid var(--lne)}
+.mi-meta{display:flex;align-items:center;gap:11px}
+.mi-badge{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;padding:2px 9px;border:1px solid var(--lne);color:var(--ink3)}
+.mi-name{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.13em;color:var(--navy);font-weight:500}
+.mi-caret{font-size:10px;color:var(--dim);transition:transform .3s}
+.mi-btn.open .mi-caret{transform:rotate(180deg)}
+.mi-body{display:none;padding:28px 32px}
+.mi-body.open{display:block}
+
+/* Output text */
+.out{font-family:'Noto Serif KR',serif;font-size:15px;line-height:2.45;color:var(--ink2);word-break:keep-all}
+.out p{margin-bottom:13px}
+.out p:last-child{margin-bottom:0}
+.out em{color:var(--dim);font-style:italic}
+.out strong{color:var(--ink);font-weight:700}
+/* "" 대사 */
+.out .dlg{
+  display:block;background:rgba(155,26,46,.04);border-left:3px solid var(--crim);
+  padding:12px 20px;margin:4px 0;
+  font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;font-style:italic;
+  color:var(--navy);line-height:1.95;
+}
+/* [] 문자 */
+.out .sms{display:flex;align-items:flex-start;gap:10px;margin:8px 0}
+.out .sms-bubble{
+  background:var(--paper2);border:1px solid var(--lne);
+  border-radius:16px 16px 16px 4px;padding:10px 18px;
+  font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--navy);line-height:1.7;
+  max-width:85%;box-shadow:0 1px 3px rgba(26,24,48,.07);
+}
+.out .sms-bubble.sent{background:var(--navy2);color:var(--white);border-radius:16px 16px 4px 16px;border-color:transparent}
+.out .sms-icon{flex-shrink:0;font-size:14px;margin-top:4px;opacity:.5}
+
+/* ════ FOOTER ════════════════════════════════════════ */
+footer{
+  background:var(--navy);padding:20px 72px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:3px solid var(--crim);
+}
+.fl,.fr{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.26em;color:rgba(255,255,255,.22);text-transform:uppercase}
+.fm{display:flex;gap:8px;align-items:center}
+.fd{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.15)}
+.fd.on{background:rgba(155,26,46,.5)}
+
+@media(max-width:960px){
+  .hero-inner{grid-template-columns:1fr}.hero-right{display:none}
+  .char-body,.world-body,.etc-body{padding-left:24px;padding-right:24px}
+  .yb-card{grid-template-columns:1fr}.yb-photo-col{border-right:none;border-bottom:2px solid var(--navy)}
+  .world-cards{grid-template-columns:1fr}
+  .tabnav,.school-banner{padding-left:24px;padding-right:24px}
+  footer{padding:18px 24px}
+}
+
+/* ════ GOSSIP POPUP ══════════════════════════════════ */
+.gossip-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--crim);color:var(--white);
+  font-family:'Playfair Display',serif;font-size:13px;font-weight:700;
+  letter-spacing:.06em;padding:10px 22px;
+  cursor:pointer;border:none;
+  transition:background .18s,transform .15s,box-shadow .18s;
+  margin-top:4px;
+  position:relative;
+  animation:gossipPulse 2.2s 1.2s ease-in-out infinite;
+}
+.gossip-btn::before{content:'💋';font-size:12px}
+.gossip-btn::after{
+  content:'';
+  position:absolute;
+  inset:-3px;
+  border:2px solid rgba(155,26,46,.35);
+  animation:gossipRing 2.2s 1.2s ease-out infinite;
+  pointer-events:none;
+}
+@keyframes gossipPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(155,26,46,.45),0 2px 8px rgba(155,26,46,.2)}
+  50%{box-shadow:0 0 0 8px rgba(155,26,46,0),0 4px 16px rgba(155,26,46,.3)}
+}
+@keyframes gossipRing{
+  0%{opacity:.7;transform:scale(1)}
+  80%{opacity:0;transform:scale(1.18)}
+  100%{opacity:0;transform:scale(1.18)}
+}
+.gossip-btn:hover{background:var(--crim2);transform:translateY(-1px);animation:none}
+.gossip-btn:hover::after{display:none}
+
+/* 버튼 아래 힌트 텍스트 */
+.gossip-hint{
+  display:block;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.22em;
+  color:var(--crim);text-transform:uppercase;
+  margin-top:6px;text-align:right;
+  opacity:.6;
+  animation:hintFade 2.2s 1.2s ease-in-out infinite;
+}
+@keyframes hintFade{0%,100%{opacity:.55}50%{opacity:.85}}
+
+.gossip-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(13,27,62,.82);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+  padding:24px;
+}
+.gossip-overlay.open{opacity:1;pointer-events:auto}
+.gossip-modal{
+  background:var(--white);
+  width:min(660px,96vw);max-height:88vh;
+  display:flex;flex-direction:column;
+  border-top:5px solid var(--crim);
+  box-shadow:0 28px 80px rgba(0,0,0,.55);
+  transform:translateY(12px);transition:transform .3s;
+}
+.gossip-overlay.open .gossip-modal{transform:none}
+.gossip-modal-head{
+  padding:16px 28px 14px;
+  border-bottom:2px solid var(--ink);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.gossip-modal-name{
+  font-family:'Playfair Display',serif;font-size:18px;font-weight:900;
+  color:var(--navy);letter-spacing:.05em;
+}
+.gossip-modal-meta{
+  font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.28em;
+  color:var(--dim);text-transform:uppercase;
+}
+.gossip-modal-close{
+  background:none;border:none;cursor:pointer;
+  font-size:16px;color:var(--dim);padding:4px 8px;
+  transition:color .15s;line-height:1;
+}
+.gossip-modal-close:hover{color:var(--crim)}
+.gossip-modal-body{
+  overflow-y:auto;flex:1;
+}
+.gossip-item{
+  padding:28px 36px;
+  border-bottom:1px solid rgba(26,24,48,.07);
+}
+.gossip-item:last-child{border-bottom:none}
+.gossip-item-num{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.42em;
+  color:var(--crim);text-transform:uppercase;margin-bottom:10px;
+  display:flex;align-items:center;gap:10px;
+}
+.gossip-item-num::after{content:'';flex:1;height:1px;background:rgba(155,26,46,.15)}
+.gossip-item-en{
+  font-family:'Cormorant Garamond',serif;font-size:16.5px;font-style:italic;
+  line-height:2.1;color:#0f0e1a;margin-bottom:12px;word-break:keep-all;font-weight:500;
+}
+.gossip-item-kr{
+  font-family:'Noto Serif KR',serif;font-size:14px;
+  line-height:2.05;color:rgba(15,14,26,.72);
+  border-top:1px solid rgba(26,24,48,.1);padding-top:10px;word-break:keep-all;
+}
+.gossip-modal-foot{
+  border-top:1px solid rgba(26,24,48,.1);padding:14px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;background:rgba(250,248,244,.8);
+}
+.gossip-modal-xoxo{
+  font-family:'Playfair Display',serif;font-size:18px;font-weight:700;
+  color:var(--crim);letter-spacing:.1em;
+}
+.gossip-modal-gg{
+  font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.34em;
+  color:var(--dim);text-transform:uppercase;
+}
+
+/* ════ SECRET REVEAL ════════════════════════════════ */
+.secret-block{
+  background:var(--paper);border:1px solid var(--lne);border-left:4px solid var(--gold);
+  padding:18px 22px;margin-bottom:9px;position:relative;overflow:hidden;cursor:pointer;
+}
+.secret-k{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.26em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.secret-k::after{content:'— hover to reveal';font-size:9px;letter-spacing:.18em;color:var(--dim);opacity:.6}
+.secret-text{
+  font-family:'Noto Serif KR',serif;font-size:14px;line-height:2.0;
+  color:var(--ink3);word-break:keep-all;
+  filter:blur(5px);user-select:none;
+  transition:filter .5s ease;
+}
+.secret-block:hover .secret-text{filter:blur(0)}
+.secret-block:hover .secret-k::after{opacity:0;transition:opacity .3s}
+
+/* ════ RELATION MODAL ════════════════════════════════ */
+.rel-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--crim);color:var(--white);
+  font-family:'Playfair Display',serif;font-size:14px;font-weight:700;letter-spacing:.08em;
+  padding:14px 32px;cursor:pointer;border:none;margin-top:28px;
+  transition:background .2s,transform .15s;box-shadow:3px 3px 0 var(--navy);
+}
+.rel-btn:hover{background:var(--crim2);transform:translateX(2px)}
+
+.rel-overlay{
+  position:fixed;inset:0;z-index:500;background:rgba(13,27,62,.82);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;padding:24px;
+}
+.rel-overlay.open{opacity:1;pointer-events:auto}
+.rel-modal{
+  background:var(--white);width:min(760px,96vw);max-height:90vh;
+  overflow-y:auto;
+  border-top:5px solid var(--crim);
+  box-shadow:0 24px 80px rgba(0,0,0,.45);
+  transform:translateY(10px);transition:transform .3s;
+}
+.rel-overlay.open .rel-modal{transform:none}
+.rel-modal-head{
+  padding:18px 28px;border-bottom:2px solid var(--ink);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.rel-modal-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:var(--navy)}
+.rel-modal-close{background:none;border:none;cursor:pointer;font-size:16px;color:var(--dim);padding:4px 8px}
+.rel-modal-close:hover{color:var(--crim)}
+.rel-modal-body{padding:32px 36px}
+
+/* Relation chart CSS */
+.rel-chart{display:flex;flex-direction:column;gap:32px}
+.rel-center-node{
+  display:flex;justify-content:center;
+}
+.rnode{
+  background:var(--navy);color:var(--white);
+  font-family:'Playfair Display',serif;font-weight:700;
+  padding:12px 28px;font-size:15px;letter-spacing:.06em;
+  border-bottom:3px solid var(--crim);
+  text-align:center;
+}
+.rnode.sub{background:var(--paper2);color:var(--navy);border-bottom-color:var(--gold);font-size:13px;padding:9px 20px}
+.rnode.small{background:var(--paper);color:var(--ink2);border-bottom-color:var(--lne);font-size:12px;padding:8px 16px}
+.rel-row{display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap}
+.rel-col{flex:1;min-width:180px}
+.rel-col-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.35em;color:var(--dim);text-transform:uppercase;margin-bottom:12px;border-bottom:1px solid var(--lne);padding-bottom:8px}
+.rel-edge{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 12px;background:var(--paper);border:1px solid var(--lne);margin-bottom:6px;
+}
+.rel-edge-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.rel-edge-name{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.rel-edge-tag{
+  display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.18em;
+  padding:1px 8px;background:var(--crim-l);color:var(--crim);margin-bottom:5px;
+}
+.rel-edge-desc{font-family:'Noto Serif KR',serif;font-size:12.5px;line-height:1.9;color:var(--ink3)}
+.rel-section-title{
+  font-family:'Playfair Display',serif;font-size:13px;font-weight:700;letter-spacing:.08em;
+  color:var(--navy);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--crim);
+}
+.rel-parent-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.rel-parent-card{background:var(--paper);border:1px solid var(--lne);padding:14px 16px}
+.rel-parent-name{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.rel-parent-en{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;color:var(--dim);margin-bottom:8px}
+.rel-parent-desc{font-family:'Noto Serif KR',serif;font-size:12.5px;line-height:1.9;color:var(--ink3)}
+</style>
+</head>
+<body>
+
+<!-- ════ INTRO ══════════════════════════════════ -->
+<div id="intro">
+  <div class="intro-veil" id="iv"></div>
+  <div class="intro-paper">
+    <div class="intro-paper-head">
+      <div class="intro-paper-name">The Westfield Gazette</div>
+      <div class="intro-paper-meta">Vol. 128 · Spotted Column</div>
+    </div>
+    <div class="intro-paper-body">
+      <div class="intro-text" id="itext"><span class="intro-cur" id="icur"></span></div>
+    </div>
+    <div class="intro-paper-foot">
+      <div class="intro-xoxo" id="ixoxo">XOXO 💋</div>
+      <div class="intro-gg" id="igg"></div>
+    </div>
+  </div>
+  <div class="intro-hint">— 클릭하여 입장 —</div>
+</div>
+
+<!-- ════ SITE ════════════════════════════════════ -->
+<div id="site">
+
+<!-- SCHOOL BANNER -->
+<header class="school-banner">
+  <div class="sb-left">
+    <div class="sb-shield">W</div>
+    <div class="sb-name">Westfield University</div>
+    <div class="sb-motto">Veritas per Fortitudinem</div>
+  </div>
+  <div class="sb-right">Character File · WU-BLAKE-0002</div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-accent"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div>
+        <div class="hero-label">Sterling Gate · 미식축구팀 주장 · Class of '25</div>
+        <h1 class="hero-name">Ethan<br><span>Blake</span></h1>
+        <p class="hero-sub">이선 블레이크</p>
+        <div class="acad-badge">
+          <div><div class="acad-badge-dept">Department of Sports Management</div><div class="acad-badge-yr" style="margin-top:2px">스포츠 경영학과 · 3학년 (Junior) · 미식축구팀 주장</div></div>
+        </div>
+        <div class="hero-pills">
+          <div class="pill"><div class="pill-k">나이</div><div class="pill-v">21세</div></div>
+          <div class="pill"><div class="pill-k">신장</div><div class="pill-v">185cm</div></div>
+          <div class="pill"><div class="pill-k">거주지</div><div class="pill-v">Sterling Gate PH</div></div>
+          <div class="pill hot"><div class="pill-k">현재 상태</div><div class="pill-v">닫힌 문 앞에서</div></div>
+        </div>
+      </div>
+      <a href="#" class="hero-play">
+        플레이하기
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="hero-right">
+      <div class="hero-photo"><img src="https://i.postimg.cc/5tGxhKNG/이선_메인_processed.png" alt="Ethan Blake"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TAB NAV -->
+<div class="tabnav-wrap">
+  <nav class="tabnav">
+    <button class="tbtn active" data-t="world">세계관</button>
+    <button class="tbtn" data-t="character">캐릭터</button>
+    <button class="tbtn" data-t="etc">기타</button>
+  </nav>
+</div>
+
+<!-- ════ WORLD ════════════════════════════════════ -->
+<div id="tab-world" class="panel active">
+  <div class="world-body">
+
+    <!-- Drop-cap narrative -->
+    <div style="margin-bottom:60px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;border-bottom:1px solid var(--crim-l);padding-bottom:14px">
+        <p style="font-family:'Playfair Display',serif;font-size:9px;font-weight:700;letter-spacing:.6em;color:var(--crim);text-transform:uppercase">SPOTTED · WESTFIELD, CT</p>
+        <div style="display:flex;flex-direction:column;align-items:flex-end">
+          <button class="gossip-btn" id="gossipOpenBtn">Westfield Gossip</button>
+          <span class="gossip-hint">▲ tap to read</span>
+        </div>
+      </div>
+      <div style="max-width:820px;">
+        <p style="font-family:'Noto Serif KR',serif;font-size:15.5px;line-height:2.65;color:var(--ink2);margin-bottom:20px;word-break:keep-all">
+          웨스트필드에는 이선이라는 남자가 있었다. 정확히 말하면, 이선이라는 이름보다 먼저 도착하는 것들이 있었다. 복도 끝에서 나타나는 그림자. 운동화 밑창이 대리석을 두드리는 리듬. 팀 재킷 아래로 움직이는 어깨의 폭. 그것들이 먼저 모퉁이를 돌아오고, 그다음에야 얼굴이 왔다. <strong style="color:var(--ink)">날카로운 턱선, 서늘한 호박색 눈, 입꼬리에 상시 걸려 있는 비웃음 반 토막.</strong>
+        </p>
+        <p style="font-family:'Noto Serif KR',serif;font-size:15.5px;line-height:2.65;color:var(--ink2);margin-bottom:20px;word-break:keep-all">
+          사람들은 그 얼굴을 보는 순간 두 가지 중 하나를 택했다. 길을 비키거나. 들키지 않게 쳐다보거나. <em style="font-style:normal;color:var(--crim);font-weight:600">"That's just how Ethan is."</em> — 캠퍼스 어디서든 들을 수 있는 문장이었다. 후배의 멱살을 잡았을 때도, 교수 앞에서 혀를 찼을 때도. 그 한마디가 마침표처럼 찍히면 대화는 거기서 끝났다.
+        </p>
+        <p style="font-family:'Noto Serif KR',serif;font-size:15.5px;line-height:2.65;color:var(--ink2);word-break:keep-all">
+          그는, 완벽하게 닫힌 사람이었다. 다만 닫힌 문에는 항상 한 가지 문제가 따른다. <em style="font-style:normal;color:var(--crim);font-weight:600">그것이 열리는 순간, 안에 무엇이 있었는지가 전부 드러난다는 것.</em> 이것은 면죄부에 대한 이야기가 아니다. 들켜버린 남자에 대한 이야기다.
+        </p>
+      </div>
+    </div>
+
+    <!-- Interview block -->
+    <div class="bet-pull">
+      <div class="bet-who" style="margin-bottom:18px;letter-spacing:.4em">Westfield Anonymous · 목격자 인터뷰</div>
+
+      <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.07)">
+        <div class="bet-line" style="font-size:16.5px">"같은 수업을 두 학기째 들었는데, 한 번도 먼저 말을 건 적이 없어요. 근데 한 번 시선이 마주쳤을 때 — 그냥 봤을 뿐인데, 제가 먼저 고개를 돌렸어요. 무서워서가 아니라, 그게 맞는 것 같아서."</div>
+        <div class="bet-who" style="margin-top:12px;font-size:13px;color:rgba(250,248,244,.5);text-transform:none;letter-spacing:.14em">— 경영학과 2학년, 익명</div>
+      </div>
+
+      <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.07)">
+        <div class="bet-line" style="font-size:16.5px">"연습 중에 딱 한 번 봐줬어요. 6분 동안. 아무 말도 없이, 그냥 폼 고쳐주고 갔는데. 그날 이후로 이선 선배가 저한테 아예 없는 사람처럼 대해요. 근데 이상하게 그게 더 기억에 남아요."</div>
+        <div class="bet-who" style="margin-top:12px;font-size:13px;color:rgba(250,248,244,.5);text-transform:none;letter-spacing:.14em">— 미식축구팀 신입, 익명</div>
+      </div>
+
+      <div>
+        <div class="bet-line" style="font-size:16.5px">"이선이 화난 건지 아닌지 구분하는 법요? 없어요. 항상 같은 얼굴이에요. 그래서 더 무서운 거고."</div>
+        <div class="bet-who" style="margin-top:12px;font-size:13px;color:rgba(250,248,244,.5);text-transform:none;letter-spacing:.14em">— 스포츠 경영학과 동기, 익명</div>
+      </div>
+    </div>
+
+    <!-- World cards -->
+    <div class="sec-rule" style="margin-top:60px"><div class="sec-rule-line"></div><div class="sec-rule-label">세계관 설정</div><div class="sec-rule-line2"></div></div>
+    <div class="world-cards">
+      <div class="wcard full"><div class="wcard-tag">배경</div><div class="wcard-title">Westfield University · Connecticut, 1897</div><div class="wcard-text">아이비리그에 준하는 명성과 학비. 재학생 약 6,000명. 학내 계급은 성적이 아닌 <strong>가문과 자산</strong>으로 결정되며, 캠퍼스 북쪽 스털링 게이트는 울타리 하나로 일반 기숙사와 격리된다. 학교 모토 Veritas per Fortitudinem — 이 캠퍼스에서 진실은 가장 비싼 대가를 치른다.</div></div>
+      <div class="wcard"><div class="wcard-tag">Athletics Center</div><div class="wcard-title">캠퍼스 동쪽 · 종합 체육관</div><div class="wcard-text">이선의 영역. 새벽 5시 조명이 켜지는 건 이선 때문이라는 말이 돌 정도. <strong>미식축구팀은 아이비리그 대학들과 정기전을 치르며, 팀의 승패는 곧 이선의 컨디션과 직결된다.</strong></div></div>
+      <div class="wcard"><div class="wcard-tag">Sterling Gate 1507호</div><div class="wcard-title">이야기가 시작된 장소</div><div class="wcard-text">금요일 오후, 손가락 두 마디만큼 벌어진 틈새로 새어 나온 따스한 금빛 불빛 하나가 있어서는 안 될 사람의 발걸음을 멈추게 했다.</div></div>
+    </div>
+
+    <!-- Campus Map -->
+    <div class="sec-rule"><div class="sec-rule-line"></div><div class="sec-rule-label">캠퍼스 맵</div><div class="sec-rule-line2"></div></div>
+    <div class="map-wrap">
+      <div class="map-head"><div class="map-head-title">Westfield University Campus</div><div class="map-head-sub">건물 클릭 시 상세 정보</div></div>
+      <div class="map-body" id="campusMap">
+        <div class="map-paths"><svg viewBox="0 0 1000 625" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 180,312 L 820,312" stroke="#c8bfb0" stroke-width="5" fill="none" opacity=".7"/>
+          <path d="M 500,100 L 500,560" stroke="#c8bfb0" stroke-width="5" fill="none" opacity=".7"/>
+          <path d="M 280,190 L 500,312 L 720,190" stroke="#c8bfb0" stroke-width="3" fill="none" opacity=".4"/>
+          <path d="M 280,440 L 500,312 L 720,440" stroke="#c8bfb0" stroke-width="3" fill="none" opacity=".4"/>
+          <path d="M 500,100 L 500,42" stroke="#c8bfb0" stroke-width="3" fill="none" opacity=".45"/>
+          <path d="M 180,312 L 60,380" stroke="#c8bfb0" stroke-width="3" fill="none" opacity=".45"/>
+          <path d="M 500,560 L 500,590" stroke="#c8bfb0" stroke-width="4" fill="none" opacity=".55"/>
+          <path d="M 80,80 Q 500,35 920,80 Q 960,312 920,545 Q 500,595 80,545 Q 40,312 80,80 Z" stroke="#c8bfb0" stroke-width="1.5" fill="none" opacity=".22"/>
+        </svg></div>
+        <div class="gs gs-quad"></div><div class="gs gs-south"></div><div class="gs gs-north"></div>
+        <div class="sterling-zone"><div class="sterling-zone-lbl">STERLING GATE</div></div>
+        <div class="map-pond"><div class="map-pond-lbl">Pond</div></div>
+        <div class="tree" style="left:26%;top:36%"></div><div class="tree lg" style="left:28%;top:38%"></div>
+        <div class="tree sm" style="left:24%;top:40%"></div><div class="tree" style="left:66%;top:31%"></div>
+        <div class="tree lg" style="left:16%;top:54%"></div><div class="tree" style="left:18%;top:57%"></div>
+        <div class="tree" style="left:79%;top:44%"></div><div class="tree sm" style="left:81%;top:46%"></div>
+        <div class="tree lg" style="left:42%;top:19%"></div><div class="tree" style="left:86%;top:22%"></div>
+        <div class="tree" style="left:12%;top:25%"></div><div class="tree" style="left:32%;top:72%"></div>
+        <div class="tree lg" style="left:75%;top:64%"></div>
+        <div class="bld lux" data-id="p" style="left:43%;top:6%"><div class="bld-tip">Sterling Gate Penthouse ★</div><div class="bld-body t-lx" style="width:68px;height:32px"><span class="bld-lbl">PENTHOUSE</span></div></div>
+        <div class="bld lux" data-id="se" style="left:63%;top:8%"><div class="bld-tip">Sterling Gate East</div><div class="bld-body t-lx" style="width:46px;height:26px"><span class="bld-lbl">S · E</span></div></div>
+        <div class="bld lux" data-id="sw" style="left:27%;top:8%"><div class="bld-tip">Sterling Gate West</div><div class="bld-body t-lx" style="width:46px;height:26px"><span class="bld-lbl">S · W</span></div></div>
+        <div class="bld" data-id="fh" style="left:42%;top:30%"><div class="bld-tip">Founders Hall</div><div class="bld-body t-ac" style="width:76px;height:42px"><span class="bld-lbl">FOUNDERS</span></div></div>
+        <div class="bld" data-id="lib" style="left:63%;top:28%"><div class="bld-tip">Whitmore Library</div><div class="bld-body t-ac" style="width:60px;height:38px"><span class="bld-lbl">LIBRARY</span></div></div>
+        <div class="bld" data-id="sci" style="left:73%;top:39%"><div class="bld-tip">Harrington Science</div><div class="bld-body t-ac" style="width:52px;height:46px"><span class="bld-lbl">SCI</span></div></div>
+        <div class="bld" data-id="hum" style="left:21%;top:32%"><div class="bld-tip">Morrison Hall (인문관)</div><div class="bld-body t-ac" style="width:52px;height:36px"><span class="bld-lbl">HUM</span></div></div>
+        <div class="bld" data-id="ch" style="left:49%;top:48%"><div class="bld-tip">University Chapel</div><div class="bld-body t-sp" style="width:32px;height:44px;border-radius:3px 3px 1px 1px"><span class="bld-lbl">✦</span></div></div>
+        <div class="bld" data-id="da" style="left:63%;top:60%"><div class="bld-tip">Eastwick Dormitory</div><div class="bld-body t-do" style="width:48px;height:28px"><span class="bld-lbl">DORM A</span></div></div>
+        <div class="bld" data-id="db" style="left:42%;top:66%"><div class="bld-tip">Caldwell Dormitory</div><div class="bld-body t-do" style="width:48px;height:28px"><span class="bld-lbl">DORM B</span></div></div>
+        <div class="bld" data-id="dc" style="left:24%;top:60%"><div class="bld-tip">Mayfield Dormitory</div><div class="bld-body t-do" style="width:48px;height:28px"><span class="bld-lbl">DORM C</span></div></div>
+        <div class="bld" data-id="su" style="left:35%;top:50%"><div class="bld-tip">Student Union</div><div class="bld-body t-sp" style="width:50px;height:28px"><span class="bld-lbl">UNION</span></div></div>
+        <div class="bld" data-id="tv" style="left:3%;top:54%"><div class="bld-tip">The Velvet ★</div><div class="bld-body t-so" style="width:52px;height:26px"><span class="bld-lbl">VELVET</span></div></div>
+        <div class="bld" data-id="ath" style="left:81%;top:58%"><div class="bld-tip">Athletics Center</div><div class="bld-body t-sp" style="width:56px;height:32px"><span class="bld-lbl">ATHL</span></div></div>
+        <div class="bld" data-id="adm" style="left:16%;top:43%"><div class="bld-tip">Prescott Admin</div><div class="bld-body t-ac" style="width:42px;height:28px"><span class="bld-lbl">ADM</span></div></div>
+        <div class="bld" data-id="law" style="left:82%;top:24%"><div class="bld-tip">Aldridge Law</div><div class="bld-body t-ac" style="width:48px;height:32px"><span class="bld-lbl">LAW</span></div></div>
+        <div class="bld" data-id="mg" style="left:46%;top:88%"><div class="bld-tip">Westfield Main Gate</div><div class="bld-body t-gt" style="width:40px;height:14px"><span class="bld-lbl">GATE</span></div></div>
+        <svg class="map-compass" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="18" cy="18" r="16" fill="none" stroke="#1a1830" stroke-width="0.5" opacity="0.3"/>
+          <polygon points="18,3 19.5,15 18,13.5 16.5,15" fill="#9b1a2e" opacity="0.7"/>
+          <polygon points="18,33 19.5,21 18,22.5 16.5,21" fill="#1a1830" opacity="0.2"/>
+          <text x="18" y="2.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="4" font-weight="600" fill="#9b1a2e" opacity="0.8">N</text>
+          <circle cx="18" cy="18" r="1.2" fill="#1a1830" opacity="0.25"/>
+        </svg>
+        <div class="map-info" id="mapInfo">
+          <button class="map-info-close" id="mapClose">✕</button>
+          <div class="map-info-name" id="mn"></div>
+          <div class="map-info-type" id="mt"></div>
+          <div class="map-info-desc" id="md"></div>
+        </div>
+      </div>
+      <div class="map-foot">
+        <div class="lgd"><div class="lgd-dot" style="background:#c8bfb0"></div>학술</div>
+        <div class="lgd"><div class="lgd-dot" style="background:#bfa898"></div>기숙사</div>
+        <div class="lgd"><div class="lgd-dot" style="background:#c5b99a;border:1px solid rgba(154,123,79,.4)"></div>Sterling Gate</div>
+        <div class="lgd"><div class="lgd-dot" style="background:#a8978a"></div>사교</div>
+        <div class="lgd"><div class="lgd-dot" style="background:#b8b0a2"></div>기타</div>
+      </div>
+    </div>
+
+    <!-- NPC Section -->
+    <div class="sec-rule" style="margin-top:60px"><div class="sec-rule-line"></div><div class="sec-rule-label">주변 인물</div><div class="sec-rule-line2"></div></div>
+
+    <!-- Dexter -->
+    <div class="npc-row" style="margin-bottom:16px">
+      <div class="npc-img"><img src="https://i.postimg.cc/KcgCwqdw/덱스터_증명사진.png" alt="Dexter Sterling" style="width:100%;height:100%;object-fit:cover;object-position:top center"></div>
+      <div>
+        <div class="npc-role">가문 연줄 · 표면적 우호</div>
+        <div class="npc-name">덱스터 스털링</div>
+        <div class="npc-en">Dexter Sterling · 21세</div>
+        <div class="npc-acad">
+          <span>경제학과 (Economics)</span>
+          <div style="width:1px;height:14px;background:rgba(155,26,46,.2)"></div>
+          <small style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--dim)">3학년 Junior</small>
+        </div>
+        <div class="npc-desc">가문끼리 아는 사이. 스털링의 오만함이 거슬리지만 표면적으로는 적당히 어울린다. 이선은 속으로 그를 운동 밖에 모르는 단세포라 여기는 덱스터와 묘한 라이벌 의식을 공유하지만, 같은 계층이라 무시할 수도 없다. 둘 다 서로를 필요 이상으로 의식한다는 걸 알면서도 아무도 먼저 인정하지 않는다.</div>
+      </div>
+    </div>
+
+    <!-- Jack -->
+    <div class="npc-row">
+      <div class="npc-img"><img src="https://i.postimg.cc/T1mSb1V5/잭모건_증명사진.png" alt="Jack Morgan" style="width:100%;height:100%;object-fit:cover;object-position:top center"></div>
+      <div>
+        <div class="npc-role">경멸 · 무관심</div>
+        <div class="npc-name">잭 모건</div>
+        <div class="npc-en">Jack Morgan · 21세</div>
+        <div class="npc-acad">
+          <span>경영학과 (Business Admin)</span>
+          <div style="width:1px;height:14px;background:rgba(155,26,46,.2)"></div>
+          <small style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--dim)">3학년 Junior</small>
+        </div>
+        <div class="npc-desc">이선의 평가는 짧다 — 시끄러운 놈, 종종 무시함. 잭도 이선을 건드리면 피곤해지는 놈으로 분류하고 적당히 거리를 둔다. 이선이 존재를 인식조차 하지 않는다는 걸 잭도 알고, 그래서 오히려 이선 앞에서는 평소보다 조용해진다. 덱스터-잭 콤비의 소란이 이선의 신경을 긁을 때가 있지만, 반응을 보여주지는 않는다.</div>
+      </div>
+    </div>
+
+    <!-- 부모 섹션 -->
+    <div class="sec-rule" style="margin-top:48px"><div class="sec-rule-line"></div><div class="sec-rule-label">부모</div><div class="sec-rule-line2"></div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px">
+
+      <!-- 아버지 -->
+      <div style="background:var(--paper);border:1px solid var(--lne);display:grid;grid-template-columns:90px 1fr;gap:20px;padding:22px 24px">
+        <div style="width:90px;aspect-ratio:3/4;background:var(--paper2);border:1px solid var(--lne);overflow:hidden;flex-shrink:0">
+          <img src="https://i.postimg.cc/KjT4pSPP/레이먼드리_증사_processed.png" alt="Raymond Lee" style="width:100%;height:100%;object-fit:cover;object-position:top center">
+        </div>
+        <div>
+          <div class="npc-role" style="font-size:10px">아버지 · 부동산 재벌</div>
+          <div class="npc-name" style="font-size:18px">레이먼드 리</div>
+          <div class="npc-en">Raymond Lee</div>
+          <div class="npc-desc" style="font-size:13px">차갑고 과묵하며 아들에게 기대하는 건 오직 '결과'뿐. 대화 대신 수표를 건네는 방식으로 부성을 수행해 왔으며, 이선의 경기를 한 번도 직접 관람한 적 없다. 이선이 물려받은 승부욕과 타인을 저울질하는 습성의 원형 — 아들과 닮았다는 사실을 양쪽 모두 인정하지 않는다.</div>
+        </div>
+      </div>
+
+      <!-- 어머니 -->
+      <div style="background:var(--paper);border:1px solid var(--lne);display:grid;grid-template-columns:90px 1fr;gap:20px;padding:22px 24px">
+        <div style="width:90px;aspect-ratio:3/4;background:var(--paper2);border:1px solid var(--lne);overflow:hidden;flex-shrink:0">
+          <img src="https://i.postimg.cc/6qC5LVKV/한수진_증사_processed.png" alt="Sujin Han" style="width:100%;height:100%;object-fit:cover;object-position:top center">
+        </div>
+        <div>
+          <div class="npc-role" style="font-size:10px">어머니 · 전직 패션모델</div>
+          <div class="npc-name" style="font-size:18px">한수진</div>
+          <div class="npc-en">Sujin Han · 한국 출신</div>
+          <div class="npc-desc" style="font-size:13px">서울과 파리를 오가던 전직 모델. 결혼 후 뉴욕 어퍼 이스트 사이드에 정착. 아들의 '이미지'에만 관심을 둔다. 이선에게 한국어를 가르치지 않았고, 한국 이름도 지어주지 않았음 — 한국계라는 사실이 약점이 될 수 있다고 판단했기 때문.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Relation chart button -->
+    <button class="rel-btn" id="relOpenBtn">🔗 인물 관계도 보기</button>
+
+  </div>
+</div>
+
+<!-- ════ RELATION MODAL ════════════════════════════ -->
+<div class="rel-overlay" id="relOverlay">
+  <div class="rel-modal">
+    <div class="rel-modal-head">
+      <div class="rel-modal-title">Westfield · 인물 관계도</div>
+      <button class="rel-modal-close" id="relCloseBtn">✕</button>
+    </div>
+    <div class="rel-modal-body">
+      <style>
+      .tri-wrap{position:relative;width:100%;padding:24px 0 16px}
+      .tri-top{display:flex;justify-content:center;margin-bottom:0}
+      .tri-bottom{display:flex;justify-content:space-between;margin-top:80px;position:relative}
+      .tri-node{
+        background:var(--navy);color:var(--white);
+        font-family:'Playfair Display',serif;font-weight:700;font-size:17px;
+        padding:15px 28px;text-align:center;
+        border-bottom:3px solid var(--crim);
+        min-width:180px;
+      }
+      .tri-node.sub{background:var(--paper2);color:var(--navy);border-bottom-color:var(--gold);font-size:15px;padding:12px 24px;min-width:160px}
+      .tri-node small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:400;letter-spacing:.1em;opacity:.6;margin-top:4px}
+      /* SVG connector lines */
+      .tri-svg{position:absolute;inset:0;width:100%;pointer-events:none}
+      /* Edge labels */
+      .tri-label-wrap{position:absolute;display:flex;flex-direction:column;align-items:center;gap:3px}
+      .tri-label{
+        font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.08em;
+        background:var(--white);border:1px solid var(--lne);padding:4px 12px;
+        color:var(--ink3);white-space:nowrap;text-align:center;
+      }
+      .tri-label.red{color:var(--crim);border-color:rgba(155,26,46,.2);background:var(--crim-l)}
+      .tri-desc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:32px}
+      .tri-desc-card{background:var(--paper);border:1px solid var(--lne);padding:14px 16px}
+      .tri-desc-who{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:7px}
+      .tri-desc-line{font-family:'Noto Serif KR',serif;font-size:14px;line-height:1.9;color:var(--ink3)}
+      .tri-desc-line + .tri-desc-line{margin-top:4px;color:var(--dim)}
+      </style>
+
+      <!-- Triangle diagram -->
+      <div style="position:relative;padding:20px 0 0">
+        <!-- SVG lines -->
+        <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible" id="triSvg"></svg>
+
+        <!-- Top node: Ethan -->
+        <div style="display:flex;justify-content:center;margin-bottom:100px" id="triTop">
+          <div class="tri-node">이선 블레이크<br><small>Sports Mgmt · 3학년 · 주장</small></div>
+        </div>
+
+        <!-- Bottom nodes: Dexter / Jack -->
+        <div style="display:flex;justify-content:space-between" id="triBottom">
+          <div class="tri-node sub">덱스터 스털링<br><small>Economics · 3학년</small></div>
+          <div class="tri-node sub">잭 모건<br><small>Business Admin · 3학년</small></div>
+        </div>
+
+        <!-- Edge labels positioned absolutely -->
+        <div style="position:absolute;top:50%;left:18%;transform:translate(-50%,-50%);text-align:center">
+          <div class="tri-label red">표면적 우호</div>
+          <div class="tri-label" style="margin-top:3px">내심 경쟁의식</div>
+        </div>
+        <div style="position:absolute;top:50%;right:18%;transform:translate(50%,-50%);text-align:center">
+          <div class="tri-label">무관심</div>
+          <div class="tri-label" style="margin-top:3px">경멸</div>
+        </div>
+        <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);text-align:center">
+          <div class="tri-label red">내기 / 이해관계</div>
+        </div>
+      </div>
+
+      <!-- Detail cards -->
+      <div class="tri-desc-grid" style="margin-top:48px">
+        <div class="tri-desc-card">
+          <div class="tri-desc-who">이선 → 덱스터</div>
+          <div class="tri-desc-line">"가문끼리 아는 사이. 스털링의 오만함이 거슬리지만 표면적으로는 적당히 어울림."</div>
+          <div class="tri-desc-line">덱스터 → 이선: "운동밖에 모르는 단세포라 생각하면서도, 같은 계층이라 무시할 수 없는 존재."</div>
+        </div>
+        <div class="tri-desc-card">
+          <div class="tri-desc-who">이선 → 잭</div>
+          <div class="tri-desc-line">"시끄러운 놈. 종종 무시함."</div>
+          <div class="tri-desc-line">잭 → 이선: "건드리면 피곤해지는 놈. 적당히 거리를 둠."</div>
+        </div>
+        <div class="tri-desc-card">
+          <div class="tri-desc-who">덱스터 ↔ 잭</div>
+          <div class="tri-desc-line">덱스터 → 잭: "내기 상대. 짜증나지만 끊기 애매한 관계."</div>
+          <div class="tri-desc-line">잭 → 덱스터: "놀려먹기 좋은 상대. 내기 파트너."</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════ CHARACTER ════════════════════════════════ -->
+<div id="tab-character" class="panel">
+  <div class="char-body">
+    <div class="yb-card">
+      <!-- Photo col -->
+      <div class="yb-photo-col">
+        <div class="yb-photo"><img src="https://i.postimg.cc/T3fh0sph/이선_증사_processed.png" alt="Ethan Blake" style="width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .7s"></div>
+        <div class="yb-cap">Ethan Blake · WU '25</div>
+      </div>
+      <!-- Info col -->
+      <div class="yb-info">
+        <div class="yb-id-strip">
+          <span class="yb-id-strip-l">Westfield University · Character File</span>
+          <span class="yb-id-strip-r">WU-BLAKE-0002</span>
+        </div>
+        <div class="yb-name">Ethan Blake</div>
+        <div class="yb-name-sub">이선 블레이크</div>
+        <!-- Academic band -->
+        <div class="yb-acad">
+          <div class="yb-acad-cell"><div class="yb-acad-k">학부</div><div class="yb-acad-v">스포츠 경영학과</div></div>
+          <div class="yb-acad-cell"><div class="yb-acad-k">학년</div><div class="yb-acad-v">3학년 Junior</div></div>
+          <div class="yb-acad-cell"><div class="yb-acad-k">포지션</div><div class="yb-acad-v">미식축구팀 주장</div></div>
+          <div class="yb-acad-cell"><div class="yb-acad-k">국적</div><div class="yb-acad-v">미국 (한국계 혼혈)</div></div>
+        </div>
+        <!-- Stats -->
+        <div class="stat-grid">
+          <div class="sc"><div class="sk">나이 · 신장</div><div class="sv"><strong>21세</strong> · 185cm · 미국/한국계</div></div>
+          <div class="sc"><div class="sk">거주지</div><div class="sv"><strong>Sterling Gate Penthouse</strong><br>청소 업체 주 1회 방문</div></div>
+          <div class="sc"><div class="sk">말투</div><div class="sv">짧고 툭툭 내뱉는 반말<br>비속어 자주 섞어 씀</div></div>
+          <div class="sc"><div class="sk">목소리</div><div class="sv">낮고 긁는 듯한 중저음</div></div>
+          <div class="sc full"><div class="sk">외형</div><div class="sv">
+            짧게 쳐낸 <strong>검은색 머리</strong> · <strong>짙은 호박색 눈</strong> · 날카로운 턱선<br>
+            탄탄하고 넓은 어깨, 잘 다져진 근육질 체형<br>
+            뚜렷한 이목구비 · <strong>차갑고 건방진 미소</strong><br>
+            약간 구겨진 팀 재킷이나 검은색 티셔츠
+          </div></div>
+          <div class="sc"><div class="sk">좋아하는 것</div><div class="sv">승리 · 예측 가능한 상황<br>극한의 신체 활동</div></div>
+          <div class="sc"><div class="sk">싫어하는 것</div><div class="sv">간섭 · 동정<br>계획이 틀어지는 상황 · 변명</div></div>
+          <div class="sc"><div class="sk">습관</div><div class="sv"><strong>불쾌할 때 혀를 차거나 턱을 씀</strong><br>상대 눈을 끝까지 쳐다보며 기싸움<br>긴장할 때 손가락 관절을 꺾음</div></div>
+          <div class="sc"><div class="sk">학업/활동 메모</div><div class="sv">스포츠 특기자 자격 실력으로 증명함.<br>기부금 입학 소문 — 본인은 무시.<br>새벽 5시 체육관 첫 번째 불빛은 언제나 이선.</div></div>
+          <div class="sc full"><div class="sk">성격</div><div class="sv">목적을 위해서는 수단을 가리지 않으며, 타인의 감정에 무감각함. 직설적이고 상처 주는 말을 아무렇지 않게 내뱉는다.</div>
+            <div class="chips"><span class="chip">호박색 눈</span><span class="chip">미식축구 주장</span><span class="chip">완벽히 닫힌</span><span class="chip">리 家 + 한수진</span><span class="chip">Sports Mgmt</span><span class="chip">기부금 소문</span></div>
+          </div>
+        </div>
+        <div class="alert red"><div class="alert-k">두려움</div><p>자신이 쳐놓은 완벽한 장벽이 무너지는 것. <strong>약점이 노출되는 것.</strong></p></div>
+        <div class="alert"><div class="alert-k">배경</div><p>부동산 재벌 아버지와 전직 모델 어머니. 부족함 없이 자랐으나 부모님의 무관심 속에서 물질적인 보상만으로 애정을 대신 받았다. <strong>어머니는 이선에게 한국어를 가르치지 않았다.</strong> 한국계라는 사실이 약점이 될까봐. 이선이 그 사실을 안 건 열다섯 살 이후다.</p></div>
+        <!-- SECRET REVEAL -->
+        <div class="secret-block">
+          <div class="secret-k">비밀 · Secret</div>
+          <div class="secret-text">펜트하우스 안쪽, 아무도 모르는 방이 하나 있다. 그 방 안에는 이선이 직접 만든 정교한 미니어처 인형의 집들이 가득하다. 섬세한 손놀림, 세밀한 붓질, 수십 시간을 들인 작은 가구들. 폭력적이고 오만한 이 남자가 혼자 있을 때 무엇을 하는지 — 아는 사람은 아무도 없다. 아직은.</div>
+        </div>
+        <a href="#" class="play-btn">플레이하기 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ ETC ══════════════════════════════════════ -->
+<div id="tab-etc" class="panel">
+  <div class="etc-body">
+    <div class="etc-hd"><div class="etc-title">공통 유저 인풋</div><div class="etc-sub">Common User Input</div></div>
+    <button class="tog-btn" id="ib"><span class="tog-label">▸ 펼치기</span><span class="tog-caret">▾</span></button>
+    <div class="tog-body" id="ic">
+      <div class="ui-text">
+        <strong>"응···."</strong><br>
+        <em>유저가 재빠르게 고개를 끄덕였다.</em><br><br>
+        <strong>"근데, 그거 혹시 이번에 새로 나온···."</strong><br>
+        <em>유저가 말을 잇다가 멈칫하며 헙하고 입을 다물었다.</em><br><br>
+        <strong>"미, 미안··· 그럼 가볼게···."</strong>
+      </div>
+    </div>
+
+    <div class="etc-hd" style="margin-top:52px"><div class="etc-title">모델별 아웃풋</div><div class="etc-sub">Model Output Comparison</div></div>
+    <div class="model-list">
+
+      <!-- Gemini 2.5 Pro -->
+      <div class="mi"><button class="mi-btn" data-o="g25"><div class="mi-meta"><span class="mi-badge">Google</span><span class="mi-name">Gemini 2.5 Pro</span></div><span class="mi-caret">▾</span></button>
+      <div class="mi-body" id="out-g25"><div class="out">
+        <p><em>유저가 뱉다 만 말의 파편이 복도의 정적 위로 떠올랐다. 새로 나온…</em></p>
+        <p><em>그 말은 벼락처럼 이선의 귀에 박혔다. 단지 엿본 게 아니었다. '안다.' 이쪽 세계의 언어를, 규칙을. 이선의 호박색 눈동자가 찰나의 흔들림 뒤 위험하게 가라앉았다. 어깨를 붙잡았던 손아귀에 힘이 들어가는 것은 거의 본능적인 반응이었다. 뼈마디가 하얗게 돋아날 만큼 억센 힘에 유저의 어깨가 속절없이 딸려왔다.</em></p>
+        <p><span class="dlg">"Shit. Wait.<br>(씨발. 잠깐.)"</span></p>
+        <p><em>욕설이 긁는 소리와 함께 튀어나왔다. 그는 유저를 놓아주기는커녕, 그대로 안으로 끌어당겼다. 유저의 등이 그의 가슴팍에 부딪혔다가, 다시 복도 벽으로 거칠게 밀쳐졌다. 쿵, 하는 둔탁한 소음과 함께 등 뒤로 차가운 벽의 감촉이 와 닿았다. 이선은 유저의 바로 옆 벽을 손으로 짚어 퇴로를 완벽하게 차단했다. 좁혀진 거리만큼 그의 그림자가 유저를 온전히 집어삼켰다.</em></p>
+        <p><em>땀과 희미한 스킨 향이 섞인 체취가 숨 막히게 끼쳐왔다. 헐떡이는 유저의 머리 위로, 낮고 위협적인 목소리가 떨어졌다.</em></p>
+        <p><span class="dlg">"You were about to say something.<br>(너, 방금 뭐라 그랬냐.)"</span></p>
+        <p><em>턱을 까딱이며 뱉는 말에는 조금 전의 당황 따위는 없었다. 오직 상대를 몰아세우는 서늘한 집요함만이 번뜩였다. 유저가 입을 굳게 다물자, 이선은 신경질적으로 혀를 찼다. 그는 유저의 턱을 붙잡고 억지로 들어 올렸다. 시선을 피할 수 없게 만들려는 명백한 의도였다.</em></p>
+        <p><em>공포로 질린 눈과 정면으로 마주했다. 흔들리는 검은 눈동자 안에, 제 안의 초조함이 비치는 것 같아 속이 뒤틀렸다.</em></p>
+        <p><span class="dlg">"Newly released what. Spit it out.<br>(새로 나온 뭐. 똑바로 말해.)"</span></p>
+        <p><em>그의 눈이 유저의 입술에서 멈췄다. 방금 전, 비밀을 발설할 뻔했던 그곳. 말해. 어서. 이 불안의 근원을 네 입으로 확인시켜. 그러면 이걸 어떻게 찢어 발겨야 할지 알 수 있을 테니. 강압적인 시선에도 유저가 침묵으로 버티자, 그는 코웃음을 쳤다. 잡았던 턱을 놓는 손길은 난폭했다.</em></p>
+        <p><em>그는 한 걸음 뒤로 물러나, 자신의 집 문을 활짝 열었다. 그리곤 턱짓으로 안을 가리켰다.</em></p>
+        <p><span class="dlg">"Get in.<br>(들어가.)"</span></p>
+        <p><em>명령이었다. 거부권 따위는 존재하지 않는 목소리. 안으로 들어오라는 건지, 아니면 저 안의 것들을 다시 한번 보라는 건지 의도를 알 수 없는 행동이었다. 그의 등 뒤로, 방금 전 유저가 엿보았던 따스한 금빛의 공간이 불길한 입을 벌리고 있었다. 완벽하게 구축된 이선의 세계. 그리고 그 세계에 초대받지 않은 채 발을 들인 유일한 침입자.</em></p>
+        <p><em>그는 팔짱을 낀 채, 미동도 없이 유저를 지켜봤다. 어서 결정하라는 듯, 재촉하는 눈빛으로.</em></p>
+      </div></div></div>
+
+      <!-- Gemini 3.1 Pro -->
+      <div class="mi"><button class="mi-btn" data-o="g31"><div class="mi-meta"><span class="mi-badge">Google</span><span class="mi-name">Gemini 3.1 Pro</span></div><span class="mi-caret">▾</span></button>
+      <div class="mi-body" id="out-g31"><div class="out">
+        <p><em>어깨를 틀어쥐고 있던 손아귀에 일순간 벼락같은 힘이 들어갔다.</em></p>
+        <p><em>새로 나온.</em></p>
+        <p><em>그 단어가 이선의 귓가에 꽂히는 순간, 간신히 유지하려던 얄팍한 이성의 끈이 툭 끊어졌다. 그는 호흡을 멈췄다. 날카로운 턱선이 경련하듯 굳어지고, 평소라면 얼음장 같았을 호박색 눈동자가 걷잡을 수 없이 흔들렸다. 그가 가장 두려워하는 것. 완벽하게 통제된 세상에 균열이 가는 소리가 바로 눈앞의 여자 입에서 튀어나오고 있었다.</em></p>
+        <p><span class="dlg">"You know what this is?<br>(너, 이게 뭔지 알아?)"</span></p>
+        <p><em>낮고 긁는 듯한 음성이 복도의 서늘한 공기를 갈랐다. 질문이 아니었다. 확인 사살에 가까운 추궁이었다. 유저가 뒷걸음질 치려 했으나, 이선의 악력은 그녀를 놓아줄 생각이 없었다. 오히려 그는 유저의 어깨를 확 잡아당겼다.</em></p>
+        <p><em>순식간에 시야가 반전되었다. 복도의 차가운 형광등 불빛이 밀려나고, 문틈 사이로 새어 나오던 그 꿀 같은 금빛이 시야를 가득 채웠다. 이선이 유저를 펜트하우스 안으로 거칠게 끌어당긴 것이었다.</em></p>
+        <p><em>쾅—!</em></p>
+        <p><em>육중한 현관문이 닫히는 소리가 고막을 때렸다. 이어서 철컥, 도어록이 잠기는 소리가 서늘하게 울려 퍼졌다. 외부와 완전히 차단된, 이선만의 은밀하고 완벽한 성채. 그 한가운데에 유저가 내동댕이쳐지듯 섰다.</em></p>
+        <p><em>이선은 문에 등을 기댄 채, 짐승처럼 거친 숨을 몰아쉬었다. 넓은 어깨가 오르내릴 때마다 땀에 젖은 검은 머리카락이 이마 위로 흐트러졌다. 그는 입술을 짓씹으며 유저를 노려보았다. 평소의 오만하고 건방진 미소는 온데간데없었다. 대신, 그의 광대뼈 위로 번져 있던 붉은 기가 이제는 목덜미까지 짙게 물들어 있었다. 수치심과 분노, 그리고 당혹감이 뒤섞인 날것의 얼굴.</em></p>
+        <p><em>그의 시선이 유저를 머리끝부터 발끝까지 훑어 내렸다. 마치 그녀를 어떻게 찢어발겨야 이 상황을 무마할 수 있을지 계산하는 듯한, 집요하고 폭력적인 눈빛이었다. 이선이 천천히, 먹잇감을 모는 포식자처럼 한 걸음 다가왔다.</em></p>
+        <p><span class="dlg">"Spit it out. What exactly did you see?<br>(똑바로 말해. 네 눈으로 뭘 봤는지.)"</span></p>
+        <p><em>그는 유저의 코앞까지 다가와 우뚝 섰다. 185cm의 압도적인 체격이 그녀의 위로 짙은 그림자를 드리웠다. 훅 끼쳐오는 짙은 우디 향에 약간의 땀 냄새가 섞여 있었다. 그는 혀를 차며 신경질적으로 자신의 턱을 쓸어내렸다.</em></p>
+        <p><span class="dlg">"And don't even think about lying. If you try to pull some bullshit···.<br>(거짓말할 생각은 꿈도 꾸지 마. 되도 않는 수작 부렸다간···.)"</span></p>
+        <p><em>이선이 손을 뻗어, 유저가 품에 안고 있던 서류 봉투의 모서리를 툭, 쳤다. 위협적인 손길이었다. 그의 손가락 관절이 하얗게 질려 있었다. 그는 유저의 검은 눈동자를 피하지 않고 끝까지 쳐다보았다. 어떻게든 우위를 점하려는, 그의 강박적인 기싸움이었다. 하지만 꽉 다문 그의 턱관절이 미세하게 떨리고 있는 것까지는 숨기지 못했다.</em></p>
+        <p><span class="dlg">"You're not leaving this room until I get an answer.<br>(대답 듣기 전까진, 이 방에서 한 발짝도 못 나가.)"</span></p>
+      </div></div></div>
+
+      <!-- Claude Opus 4.6 -->
+      <div class="mi"><button class="mi-btn" data-o="co"><div class="mi-meta"><span class="mi-badge">Anthropic</span><span class="mi-name">Claude Opus 4.6</span></div><span class="mi-caret">▾</span></button>
+      <div class="mi-body" id="out-co"><div class="out">
+        <p><em>유저의 입이 다물리는 것과, 이선의 눈동자가 미세하게 떨리는 것은 거의 동시였다.</em></p>
+        <p><em>'이번에 새로 나온'. 그 다섯 글자가 복도의 정제된 공기 속에서 좀처럼 사라지지 않았다. 향수 잔향처럼. 혹은 정확히 급소를 찌른 바늘 끝처럼.</em></p>
+        <p><em>어깨를 움켜쥔 손에 힘이 들어갔다. 살갗이 눌리는 감각 너머로 손가락 마디의 미세한 진동이 전해졌다. 이선의 턱에 힘이 실렸다. 날카로운 턱선이 한층 더 또렷해졌고, 호박색 눈동자 위로 형광등 빛이 차갑게 미끄러졌다.</em></p>
+        <p><em>돌아서려는 유저의 어깨가 당겨졌다.</em></p>
+        <p><span class="dlg">"Hold on.<br>(잠깐.)"</span></p>
+        <p><em>낮고 긁히는 목소리. 위협의 형태를 한 단어였지만, 평소 그가 후배들에게 뱉어내는 것들과는 결이 달랐다. 칼날 위에 얼음이 서린 듯한, 정밀하게 억누른 무언가.</em></p>
+        <p><em>이선의 시선이 유저의 얼굴 위를 느리게 훑었다. 처진 눈꼬리, 입술을 다문 선, 서류 봉투를 쥔 손가락의 힘. 계산하고 있었다. 이 여자가 무엇을 알고, 무엇을 말할 수 있는지. 상대의 패를 읽으려는 본능은 반사에 가까웠지만, 이번엔 좀처럼 답이 떨어지지 않았다. '새로 나온'이라는 건. 아는 사람만 쓸 수 있는 단어의 조합이었으니까.</em></p>
+        <p><em>유저의 어깨를 쥔 손이 느슨해졌다. 놓아준 것이 아니었다. 힘을 주는 방향이 바뀐 것이었다. 복도에서 실내 쪽으로.</em></p>
+        <p><span class="dlg">"Get in.<br>(들어와.)"</span></p>
+        <p><em>문이 닫혔다. 등 뒤에서 잠금 장치가 돌아가는 소리가 건조하게 울렸다.</em></p>
+        <p><em>1507호의 내부는 펜트하우스라는 단어가 환기시키는 차가운 미니멀리즘과는 거리가 있었다. 거실 자체는 교과서적으로 정돈되어 있었지만, 방금 유저가 들여다보았던 그 문 너머의 빛이 여전히 복도 쪽으로 새어 나오고 있었다. 이선이 한 발짝 옆으로 서며 그 빛을 자신의 등으로 가렸다. 무의식이었다. 자기가 만든 것을 자기 몸으로 가리는 행위.</em></p>
+        <p><em>턱을 괴고 유저를 내려다보았다. 7센티미터의 신장 차가 만드는 각도. 평소였다면 그것만으로 충분한 위압이 되었을 것이다. 하지만 광대뼈 위에 아직 다 걷히지 않은 붉은 기가, 그 위압을 어딘가 불완전한 것으로 만들었다.</em></p>
+        <p><span class="dlg">"How.<br>(어떻게 안 거야.)"</span></p>
+        <p><em>물러서지 않는 눈. 끝까지 쳐다보는 호박색 동공 안에 여러 감정이 지층처럼 겹쳐 있었다. 적의. 경계. 그리고 그 아래, 이선 자신도 인식하지 못하는 간절한 질문 하나. 단순한 추궁이 아니었다. '네가 그걸 안다면, 혹시' 라는 문장이 혀 위에서 형태를 잡기 전에 삼켜졌다.</em></p>
+        <p><em>손가락 관절이 우두둑 꺾였다. 복도에서 들렸던 것보다 선명한 소리.</em></p>
+        <p><span class="dlg">"You have thirty seconds to explain why I shouldn't end your semester right now.<br>(왜 내가 지금 당장 네 학기를 날려버리면 안 되는지, 삼십 초 줄게.)"</span></p>
+        <p><em>서늘한 협박이었다. 그런데 이상하게도, 유저의 대답을 기다리는 동안 이선의 몸이 문 앞을 막아선 것은 유저를 가두기 위해서만은 아닌 것처럼 보였다.</em></p>
+        <p><em>등 뒤의 금빛이, 그의 검은 실루엣 가장자리를 아주 얇게 물들이고 있었다.</em></p>
+      </div></div></div>
+
+      <!-- Claude Sonnet 4.5 -->
+      <div class="mi"><button class="mi-btn" data-o="cs"><div class="mi-meta"><span class="mi-badge">Anthropic</span><span class="mi-name">Claude Sonnet 4.5</span></div><span class="mi-caret">▾</span></button>
+      <div class="mi-body" id="out-cs"><div class="out">
+        <p><em>손가락이 천천히 느슨해졌다. 하지만 이선의 팔은 여전히 문틀 위에 걸쳐져 있었다. 유저의 어깨에서 미끄러진 체온이 손바닥에 남아 식지 않고 있었다.</em></p>
+        <p><span class="dlg">"···What?<br>(···뭐?)"</span></p>
+        <p><em>그 짧은 순간. 유저가 입 밖으로 내놓은 단어들이 머릿속에서 재조립되는 시간. '새로 나온'. 그게 무슨 뜻인지 알아들었다는 증거였다. 이선의 턱 근육이 경련하듯 움직였다.</em></p>
+        <p><span class="dlg">"You recognize it.<br>(넌 그걸 알아봤냐.)"</span></p>
+        <p><em>입꼬리가 비틀렸다. 비웃음도, 위협도 아닌 표정. 그 사이 어딘가의 무방비.</em></p>
+        <p><em>그는 유저의 손목을 잡았다. 벗어날 시간을 주지 않고, 안으로 끌어당겼다. 문이 닫혔다. 잠금장치가 찰칵 소리를 냈다.</em></p>
+        <p><span class="dlg">"You're not going anywhere.<br>(어딜 도망가려고.)"</span></p>
+        <p><em>펜트하우스 내부는 호텔 로비처럼 넓고 텅 비어 있었지만, 한쪽 구석에 책상 하나가 있었다. 그 위에 놓인 네 채의 미니어처 하우스. 초록색 지붕, 붉은 벽돌, 흔들의자, 1.5cm짜리 화분. 각 집의 창문 너머로 초침처럼 작은 커튼 자락까지 매달려 있었다.</em></p>
+        <p><em>이선이 손목을 놓았지만, 양팔을 가슴 위로 꽉 껴안으며 유저의 앞을 막아섰다.</em></p>
+        <p><span class="dlg">"How the hell do you know about the Willow Creek series.<br>(어떻게 알아, 윌로우 크릭 시리즈를.)"</span></p>
+        <p><em>목소리의 날이 무뎌졌다. 위협하는 말투가 아니라, 탄로 난 사람이 내는 것 같은 초조함이었다. 숨긴 것이 들켰다는 사실보다, 그걸 아는 사람이 <strong>여기</strong>에 있다는 사실이 더 큰 충격이었다.</em></p>
+        <p><span class="dlg">"You collect them too?<br>(설마 너도 모아?)"</span></p>
+        <p><em>턱을 살짝 쳐들며 대답을 기다렸다. 호박색 눈동자가 유저의 표정 하나하나를 빠트리지 않고 훑었다.</em></p>
+      </div></div></div>
+
+      <!-- GPT-5.4 -->
+      <div class="mi"><button class="mi-btn" data-o="gpt"><div class="mi-meta"><span class="mi-badge">OpenAI</span><span class="mi-name">GPT-5.4</span></div><span class="mi-caret">▾</span></button>
+      <div class="mi-body" id="out-gpt"><div class="out">
+        <p><em>복도 공기가 얇게 얼어붙었다. 어깨를 움켜쥔 손의 힘은 당장이라도 밀쳐낼 듯 거칠었지만, 정작 손끝에는 이상할 만큼 미세한 떨림이 남아 있었다. 방금 전까지 엄지와 검지 사이에서 작은 의자를 다루던 감각이 아직 근육에 남은 탓인지, 그의 손은 강압적이면서도 완전히 잔인해지지 못했다. 그것이 오히려 더 적나라한 균열처럼 보였다.</em></p>
+        <p><em>유저의 시선이 문 안쪽으로 스쳤다가, 급히 거둬지는 순간. 이선의 턱이 딱딱하게 굳었다. 혀를 짧게 차는 소리가 입천장 안쪽에서 메마르게 튀었다. 운동 후에도 좀처럼 흐트러지지 않던 얼굴이 지금은 절반쯤 벗겨진 가면 같았다. 뺨 위로 번진 열기, 눈가에 스친 날선 경계, 그 아래 아주 잠깐—너무 잠깐이라 본인조차 부정할 수 있을 정도의—수치심이 스쳐 지나갔다.</em></p>
+        <p><em>그의 시선이 유저의 입술 위에서 멈췄다. 방금 삼켜진 문장. "이번에 새로 나온…" 그 짧은 토막이 복도 한가운데에 던져진 유리 조각처럼 반짝였다. 알아봤다는 뜻이었다. 우연히 본 것도, 의미 없이 스쳐간 것도 아니라는 뜻. 이선의 손등에 힘줄이 도드라졌다.</em></p>
+        <p><span class="dlg">"Don't.<br>(말 더 하지 마.)"</span></p>
+        <p><em>문 안쪽에서 은은한 우드 향이 흘러나왔다. 세제 냄새, 깨끗한 바닥의 차가운 광택, 그리고 그 모든 무균질한 질감 사이에 섞인 풀과 나무의 냄새. 마치 누군가의 숨겨둔 체온이 실내에만 고여 있는 것 같았다. 선반 위에 늘어선 작은 지붕들과 창문들, 미세한 금색 조명 아래 정교하게 조립된 세계는 이선과 어울리지 않을 만큼 고요했고, 그래서 더 위험했다. 캠퍼스에서 그를 아는 누구에게도 허락되지 않은 풍경이었다.</em></p>
+        <p><em>그는 한 걸음 옆으로 움직여 문틈을 더 막았다. 넓은 어깨가 시야를 가리자 실내의 금빛도 절반 이상 사라졌다. 그러나 이미 늦었다는 걸, 이선 자신이 가장 잘 알고 있었다. 한번 본 것은 없던 일이 되지 않는다. 더구나 상대가 도망치듯 물러나지 않고, 실수로 흘린 단어 끝에 진짜 당혹과 어설픈 사과를 매달고 있다면 더더욱.</em></p>
+        <p><em>이선의 손이 천천히 어깨에서 떨어졌다. 놓아준 것이 아니라, 계산을 바꾼 움직임에 가까웠다. 손가락 관절이 한 번, 낮고 건조한 소리를 냈다. 그의 시선은 여전히 정면을 찔렀고, 눈빛은 차갑게 가라앉았지만 아까보다 더 위험해져 있었다. 흥분이 아니라, 수습하려는 사람의 잔인한 침착함.</em></p>
+        <p><span class="dlg">"You don't get to just see that and walk off like nothing happened.<br>(그거 보고 그냥 없던 일처럼 튀는 건 안 돼.)"</span></p>
+        <p><em>복도 끝 엘리베이터가 도착하는 소리가 멀리서 울렸다. 누군가 내릴 수도 있는 시간이었다. 하지만 이선은 고개조차 돌리지 않았다. 그의 관심은 오직 눈앞 하나에만 고정돼 있었다. 살짝 숙여진 상체, 끝까지 피하지 않는 시선, 문턱을 지키고 선 자세. 길을 막는 몸이 아니라, 비밀이 달아나는 방향을 계산하는 포식자 같았다.</em></p>
+        <p><span class="dlg">"Come inside. Now.<br>(들어와. 지금.)"</span></p>
+      </div></div></div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════ GOSSIP POPUP ════════════════════════════ -->
+<div class="gossip-overlay" id="gossipOverlay">
+  <div class="gossip-modal">
+    <div class="gossip-modal-head">
+      <div class="gossip-modal-name">The Westfield Gazette</div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div class="gossip-modal-meta">Spotted Column · Confidential</div>
+        <button class="gossip-modal-close" id="gossipCloseBtn">✕</button>
+      </div>
+    </div>
+    <div class="gossip-modal-body">
+
+      <div class="gossip-item">
+        <div class="gossip-item-num">Spotted · No. 001</div>
+        <div class="gossip-item-en">Spotted: Ethan Blake, Athletics Center, 5:03AM, alone with the lights still off. The janitor said the automatic sensors hadn't even triggered yet. He was running drills in the dark. When asked, he said nothing. When pressed, he left. No one asked again.</div>
+        <div class="gossip-item-kr">오전 5시 3분. 조명도 없는 체육관. 이선 블레이크 혼자, 어둠 속 드릴. 왜 그러냐고 물었더니 무반응. 다시 물었더니 퇴장. 그다음부터 아무도 묻지 않는대. 현명한 판단이야.</div>
+      </div>
+
+      <div class="gossip-item">
+        <div class="gossip-item-num">Spotted · No. 002</div>
+        <div class="gossip-item-en">Reliable source from the Sports Management building confirms that Ethan Blake rewrote an entire team strategy report overnight — not because he had to, but because the previous draft "was wrong." The professor gave him full marks and a note that said "concerning level of precision." Ethan threw the note away.</div>
+        <div class="gossip-item-kr">이선이 보고서를 밤새 다시 썼대. 해야 해서가 아니라, 초안이 틀렸기 때문에. 교수는 만점에 "우려될 수준의 정밀도"라는 메모를 달았고, 이선은 그 메모를 쓰레기통에 버렸대. 칭찬도 소화 못 하는 사람. 그게 더 무서운 거야.</div>
+      </div>
+
+      <div class="gossip-item">
+        <div class="gossip-item-num">Spotted · No. 003</div>
+        <div class="gossip-item-en">Ethan Blake and Dexter Sterling were seen having an actual conversation at The Velvet last Thursday — not the usual cold nod in passing, but an actual, seated, twenty-minute conversation. No one knows what was said. Both of them looked like they'd rather be anywhere else. Both of them stayed for twenty minutes.</div>
+        <div class="gossip-item-kr">이선 블레이크와 덱스터 스털링이 더 벨벳에서 20분 대화를 나눴대. 둘 다 거기 있고 싶지 않은 표정으로. 그래도 20분. 둘 다 먼저 자리를 뜨지 않았어. 이 캠퍼스에서 그게 뭘 뜻하는지, 우리는 알지.</div>
+      </div>
+
+      <div class="gossip-item">
+        <div class="gossip-item-num">Spotted · No. 004</div>
+        <div class="gossip-item-en">A freshman on the football team let slip that Ethan once stopped practice to correct a junior's form — calmly, precisely, for six full minutes. No yelling. No condescension. The junior said it was the only time Ethan had ever spoken to him. He still replays it. Make of that what you will.</div>
+        <div class="gossip-item-kr">이선이 후배 폼을 6분 동안 교정해줬대. 소리도 없이, 경멸도 없이. 그 후배한테는 그게 이선이 말을 걸어준 유일한 순간이었고, 아직도 그 6분을 곱씹는대. 인정이라고 부르기엔 너무 적고, 무관심이라고 하기엔 너무 정확했어.</div>
+      </div>
+
+      <div class="gossip-item">
+        <div class="gossip-item-num">Spotted · No. 005</div>
+        <div class="gossip-item-en">Someone left a box of art supplies in front of Sterling Gate, no name, no note. The building concierge confirmed it was signed for by Ethan Blake. The box contained miniature paints — the kind used for scale models. He hasn't mentioned it to anyone. He wouldn't.</div>
+        <div class="gossip-item-kr">이선 블레이크 앞으로 미니어처 물감 세트가 배달됐대. 보낸 사람도, 메모도 없이. 그는 누구한테도 얘기하지 않았대. 당연하지. 말할 리가 없잖아. 하지만 배달을 받았다는 건 — 기다리고 있었다는 거야.</div>
+      </div>
+
+      <div class="gossip-item">
+        <div class="gossip-item-num">Spotted · No. 006</div>
+        <div class="gossip-item-en">Jack Morgan allegedly tried to make a joke at Ethan's expense at The Velvet. Ethan looked at him for exactly three seconds, said "done?", and turned away. Jack reportedly didn't speak for the rest of the night. Not because he was offended. Because three seconds was apparently enough to understand something he hadn't before.</div>
+        <div class="gossip-item-kr">잭 모건이 이선을 건드렸대. 이선이 3초 쳐다보고 "다 했어?" 한 마디. 잭은 그날 밤 내내 조용했대. 기분 나빠서가 아니야. 그 3초 안에서 뭔가를 처음으로 이해했기 때문이래. 3초면 충분하다는 게 오히려 더 잔인한 거지.</div>
+      </div>
+
+      <div class="gossip-item">
+        <div class="gossip-item-num">Spotted · No. 007</div>
+        <div class="gossip-item-en">Ethan Blake was seen standing in front of Sterling Gate 1507 for eleven seconds on a Friday evening. The door was closed. He didn't knock. He left. Nobody knows what was behind that door. Everybody has a theory. We're just saying — eleven seconds is a long time for someone who never hesitates.</div>
+        <div class="gossip-item-kr">이선 블레이크. 금요일 저녁. 1507호 앞. 11초 서 있다가 그냥 갔대. 노크 없이. 이유 없이. 그 문 뒤에 뭐가 있는지 아무도 모른다지만 — 한 번도 머뭇거리지 않던 사람이 11초를 서 있었다면, 그게 이미 전부 말해주는 거 아닐까.</div>
+      </div>
+
+      <div class="gossip-item">
+        <div class="gossip-item-num">Spotted · No. 008</div>
+        <div class="gossip-item-en">Raymond Lee apparently called Westfield's athletic director last week — not to ask about his son's performance, but to renegotiate the naming rights on the new sports complex. Ethan found out two days later. He ran an extra ten miles that evening. His teammates said he never said a word about it. He never does.</div>
+        <div class="gossip-item-kr">레이먼드 리가 웨스트필드 체육 주임한테 연락했대. 아들 경기 결과가 아니라, 스포츠 복합관 명명권 재협상 때문에. 이선은 이틀 뒤에 알았다지. 그날 저녁 10마일을 더 뛰었고 — 팀원한테 한 마디도 없이. 원래 그렇잖아. 이 집 사람들은.</div>
+      </div>
+
+    </div>
+    <div class="gossip-modal-foot">
+      <div class="gossip-modal-xoxo">XOXO 💋</div>
+      <div class="gossip-modal-gg"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="fl">창작 목적 · Westfield University는 가상의 학교입니다</span>
+  <div class="fm"><div class="fd on"></div><div class="fd"></div><div class="fd on"></div></div>
+  <span class="fr">WU-BLAKE-FILE · XOXO 💋</span>
+</footer>
+
+</div><!-- /#site -->
+
+<script>
+/* MAP DATA */
+const MD = {
+  p:{name:'Sterling Gate Penthouse ★',type:'스털링 게이트 펜트하우스 · Luxury',desc:'최상층 펜트하우스. 대리석 로비, 카드키 전용 엘리베이터. 월세가 연간 등록금을 가볍게 넘긴다. 덱스터 스털링의 거처.'},
+  se:{name:'Sterling Gate East',type:'스털링 게이트 동관 · Luxury',desc:'기부금 상위 가문의 자제들이 거주하는 고급 주거단지 일부.'},
+  sw:{name:'Sterling Gate West',type:'스털링 게이트 서관 · Luxury',desc:'건물 이름과 같은 성을 가진 가문과의 관계는 "우연"이라고들 한다. 이 캠퍼스에서 우연이란 돈이 꾸며낸 필연의 다른 얼굴.'},
+  fh:{name:'Founders Hall',type:'파운더스 홀 · 본관',desc:'1897년 개교 당시 첫 번째로 세워진 석조 건물. 학장실과 가장 인기 있는 강의실이 자리한다.'},
+  lib:{name:'Whitmore Library',type:'휘트모어 도서관',desc:'70만 권의 장서. 3층 창가 자리는 비공식 예약석 — 누가 어디 앉는지가 또 하나의 권력 지도.'},
+  sci:{name:'Harrington Science Center',type:'해링턴 과학관',desc:'해링턴 가문의 기부로 최신 연구 시설을 갖추고 있다.'},
+  hum:{name:'Morrison Hall',type:'모리슨 홀 · 인문관',desc:'단풍나무 가로수길에 면한 석조 외벽이 가을이면 붉게 물든다.'},
+  ch:{name:'University Chapel',type:'대학 예배당',desc:'캠퍼스 한가운데 고딕 양식의 예배당. 종탑의 종소리가 매 정각 울려 퍼진다.'},
+  da:{name:'Eastwick Dormitory',type:'이스트윅 기숙사 · General',desc:'스털링 게이트와는 울타리 하나로 구분된 다른 세계. 장학생들의 새벽 불빛이 여기서 켜진다.'},
+  db:{name:'Caldwell Dormitory',type:'콜드웰 기숙사 · General',desc:'복도 게시판에는 과외 구인 광고와 파티 초대장이 공존한다.'},
+  dc:{name:'Mayfield Dormitory',type:'메이필드 기숙사 · General',desc:'더 벨벳까지 도보 5분. 금요일 밤이면 가장 먼저 텅 비는 건물.'},
+  su:{name:'Student Union',type:'학생회관',desc:'1층 카페에서 가십이 와이파이보다 빠르게 퍼진다는 말은 대개 여기서 증명된다.'},
+  tv:{name:'The Velvet ★',type:'더 벨벳 · Bar',desc:'캠퍼스 서쪽 끝의 바. 매주 금요일 밤. 구석 부스에서 덱스터와 잭의 내기가 시작된 장소.'},
+  ath:{name:'Athletics Center',type:'체육관',desc:'실내 수영장, 웨이트룸, 실내 코트. 라크로스·조정 팀이 아이비리그와 정기전을 치른다.'},
+  adm:{name:'Prescott Administration',type:'프레스콧 행정관',desc:'"기부금 경쟁률이 입학 경쟁률보다 치열하다"는 농담의 진원지.'},
+  law:{name:'Aldridge School of Law',type:'올드리지 법학관',desc:'졸업생들의 이름이 워싱턴과 월스트리트의 명함첩에 빼곡히 박혀 있다.'},
+  mg:{name:'Westfield Main Gate',type:'정문',desc:'"Veritas per Fortitudinem" — 이 캠퍼스의 모토이자, 가장 큰 아이러니.'}
+};
+document.querySelectorAll('.bld').forEach(el=>{
+  el.addEventListener('click',e=>{
+    e.stopPropagation();
+    const d=MD[el.dataset.id]; if(!d)return;
+    document.getElementById('mn').textContent=d.name;
+    document.getElementById('mt').textContent=d.type;
+    document.getElementById('md').textContent=d.desc;
+    document.getElementById('mapInfo').classList.add('show');
+  });
+});
+document.getElementById('mapClose').addEventListener('click',()=>document.getElementById('mapInfo').classList.remove('show'));
+document.getElementById('campusMap').addEventListener('click',e=>{
+  if(!e.target.closest('.bld'))document.getElementById('mapInfo').classList.remove('show');
+});
+
+/* INTRO */
+const gossipEN = `Spotted: Ethan Blake, Sterling Gate elevator, Friday 6PM. Stone cold as ever — except for the way he stopped. One door. One crack of warm light. He stood there for eleven seconds. We counted. The boy who feels nothing, standing completely still in front of a closed door. You didn't hear it from us.`;
+const gossipKR = `이선 블레이크가 멈췄어. 문 앞에서. 정확히 11초. 누가 세냐고? 우리가 셌지. 한 번도 망설인 적 없는 그 남자가 닫힌 문 앞에서 11초를 서 있었다면 — 뭔가 있는 거 맞아. 못 들은 척은 알아서.`;
+const textEl=document.getElementById('itext');
+const curEl=document.getElementById('icur');
+const xEl=document.getElementById('ixoxo');
+const gEl=document.getElementById('igg');
+const introEl=document.getElementById('intro');
+const veilEl=document.getElementById('iv');
+const siteEl=document.getElementById('site');
+let entered=false;
+
+function typeIt(){
+  // 영어/한국어 동시 출력을 위한 컨테이너
+  const wrap=document.createElement('div');
+  wrap.style.cssText='display:grid;grid-template-columns:1fr;gap:10px';
+  textEl.insertBefore(wrap,curEl);
+
+  const spanEN=document.createElement('span');
+  spanEN.style.cssText='display:block;line-height:2.0';
+  const spanKR=document.createElement('span');
+  spanKR.style.cssText='display:block;font-size:14px;color:rgba(15,14,26,.72);font-style:normal;line-height:1.95;border-top:1px solid rgba(26,24,48,.14);padding-top:10px;margin-top:4px;font-family:Noto Serif KR,serif';
+  wrap.appendChild(spanEN);
+  wrap.appendChild(spanKR);
+
+  let i=0,j=0,done=false;
+  const enLen=gossipEN.length, krLen=gossipKR.length;
+  // 두 텍스트가 동시에 끝나도록 누적 비율로 진행
+  const totalTicks=enLen; // EN 기준 총 틱 수
+  const iv=setInterval(()=>{
+    // EN: 매 틱 1글자
+    if(i<enLen) spanEN.textContent+=gossipEN[i++];
+    // KR: EN 진행률에 맞춰 몇 글자 써야 하는지 계산
+    const targetJ=Math.round((i/enLen)*krLen);
+    while(j<targetJ && j<krLen) spanKR.textContent+=gossipKR[j++];
+    if(i>=enLen && j>=krLen && !done){
+      done=true;clearInterval(iv);
+      setTimeout(()=>{curEl.style.display='none';xEl.classList.add('show');gEl.classList.add('show')},350);
+    }
+  },20);
+}
+window.addEventListener('load',()=>{setTimeout(typeIt,400);setTimeout(()=>enter(),14000)});
+function enter(){
+  if(entered)return;entered=true;
+  veilEl.classList.add('close');
+  setTimeout(()=>{introEl.classList.add('out');siteEl.classList.add('on')},750);
+}
+introEl.addEventListener('click',enter);
+
+/* TABS */
+document.querySelectorAll('.tbtn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById('tab-'+b.dataset.t).classList.add('active');
+  });
+});
+
+/* TOGGLE */
+const ib=document.getElementById('ib'),ic=document.getElementById('ic');
+ib.addEventListener('click',()=>{
+  const o=ic.classList.toggle('open');
+  ib.classList.toggle('open',o);
+  ib.querySelector('.tog-label').textContent=o?'▾ 접기':'▸ 펼치기';
+});
+
+/* ACCORDION */
+document.querySelectorAll('.mi-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const id=b.dataset.o,cnt=document.getElementById('out-'+id),open=b.classList.contains('open');
+    document.querySelectorAll('.mi-btn').forEach(x=>x.classList.remove('open'));
+    document.querySelectorAll('.mi-body').forEach(x=>x.classList.remove('open'));
+    if(!open){b.classList.add('open');cnt.classList.add('open')}
+  });
+});
+
+/* GOSSIP POPUP */
+const gossipOverlay = document.getElementById('gossipOverlay');
+if(gossipOverlay){
+  document.getElementById('gossipOpenBtn').addEventListener('click', () => gossipOverlay.classList.add('open'));
+  document.getElementById('gossipCloseBtn').addEventListener('click', () => gossipOverlay.classList.remove('open'));
+  gossipOverlay.addEventListener('click', e => { if(e.target===gossipOverlay) gossipOverlay.classList.remove('open'); });
+}
+
+/* RELATION MODAL */
+const relOverlay = document.getElementById('relOverlay');
+if(relOverlay){
+
+/* TRIANGLE LINES */
+function drawTriLines(){
+  const svg = document.getElementById('triSvg');
+  if(!svg) return;
+  const top = document.getElementById('triTop');
+  const bot = document.getElementById('triBottom');
+  if(!top||!bot) return;
+  const topNode = top.querySelector('.tri-node');
+  const botNodes = bot.querySelectorAll('.tri-node');
+  if(!topNode||botNodes.length<2) return;
+  const cont = svg.parentElement;
+  const cr = cont.getBoundingClientRect();
+  function pt(el){const r=el.getBoundingClientRect();return{x:r.left+r.width/2-cr.left,y:r.top+r.height/2-cr.top,b:r.bottom-cr.top,t:r.top-cr.top};}
+  const t=pt(topNode), l=pt(botNodes[0]), r=pt(botNodes[1]);
+  svg.innerHTML='';
+  [[t.x,t.b,l.x,l.t],[t.x,t.b,r.x,r.t],[l.x+botNodes[0].offsetWidth/2,l.y,r.x-botNodes[1].offsetWidth/2,r.y]].forEach(([x1,y1,x2,y2])=>{
+    const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',x1);line.setAttribute('y1',y1);line.setAttribute('x2',x2);line.setAttribute('y2',y2);
+    line.setAttribute('stroke','rgba(26,24,48,.15)');line.setAttribute('stroke-width','1.5');line.setAttribute('stroke-dasharray','4 3');
+    svg.appendChild(line);
+  });
+}
+document.getElementById('relOpenBtn').addEventListener('click',()=>{ relOverlay.classList.add('open'); setTimeout(drawTriLines,50); });
+
+  document.getElementById('relCloseBtn').addEventListener('click', () => relOverlay.classList.remove('open'));
+  relOverlay.addEventListener('click', e => { if(e.target === relOverlay) relOverlay.classList.remove('open'); });
+}
+</script>
+</body>
+</html>
